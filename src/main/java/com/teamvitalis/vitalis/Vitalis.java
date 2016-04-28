@@ -1,12 +1,18 @@
 package com.teamvitalis.vitalis;
 
+import java.util.logging.Logger;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Vitalis extends JavaPlugin {
 	
+	public static Vitalis plugin;
+	public static Logger log;
+	
 	@Override
 	public void onEnable() {
-		//TODO
+		plugin = this;
+		log = this.getLogger();
 	}
 	
 	@Override
