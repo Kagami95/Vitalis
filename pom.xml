@@ -30,12 +30,14 @@
       <version>1.9.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!--CraftBukkit-->
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
       <version>1.9.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!--HikariCP JDBC-->
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
@@ -89,4 +91,8 @@
       </plugin>
     </plugins>
   </build>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 </project>
