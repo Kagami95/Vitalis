@@ -40,13 +40,13 @@
   
   <build>
     <defaultGoal>clean package install</defaultGoal>
-    <finalName>${artifactId}-${project.version}</finalName>
+    <finalName>${project.artifactId}-${project.version}</finalName>
     <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>
     <resources>
       <resource>
         <targetPath>.</targetPath>
         <filtering>true</filtering>
-        <directory>${basedir}/src/main/resources/</directory>
+        <directory>${project.basedir}/src/main/resources/</directory>
         <includes>
           <include>*.yml</include>
         </includes>
