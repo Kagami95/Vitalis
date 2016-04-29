@@ -47,6 +47,11 @@ public abstract class AGui implements IGui {
 		getViewers(getName()).remove(player.getUniqueId());
 	}
 	
+	@Override
+	public void close(Player player) {
+		removeViewer(player);
+	}
+	
 	/**
 	 * Returns all registered pages.
 	 * @return ConcurrentHashMap of Pages.
