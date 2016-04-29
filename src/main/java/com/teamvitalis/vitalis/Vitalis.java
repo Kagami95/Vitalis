@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.teamvitalis.vitalis.listeners.GuiListener;
+
 public class Vitalis extends JavaPlugin {
 	
 	public static Vitalis plugin;
@@ -13,6 +15,8 @@ public class Vitalis extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		log = this.getLogger();
+		
+		new GuiListener(this);
 	}
 	
 	@Override
