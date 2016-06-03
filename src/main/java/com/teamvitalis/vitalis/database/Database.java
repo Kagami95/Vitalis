@@ -29,6 +29,10 @@ public class Database {
 
     }
 
+    public Database() {
+        this.dataSource = applyConfiguration();
+    }
+
     private HikariDataSource applyConfiguration() {
         switch (this.driver) {
             case "mysql": {
