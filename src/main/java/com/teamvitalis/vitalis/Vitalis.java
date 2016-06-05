@@ -1,10 +1,11 @@
 package com.teamvitalis.vitalis;
 
-import java.util.logging.Logger;
+import com.teamvitalis.vitalis.listeners.GuiListener;
+import com.teamvitalis.vitalis.listeners.PlayerListener;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.teamvitalis.vitalis.listeners.GuiListener;
+import java.util.logging.Logger;
 
 public class Vitalis extends JavaPlugin {
 	
@@ -17,6 +18,7 @@ public class Vitalis extends JavaPlugin {
 		log = this.getLogger();
 		
 		new GuiListener(this);
+		new PlayerListener(this);
 	}
 	
 	@Override
