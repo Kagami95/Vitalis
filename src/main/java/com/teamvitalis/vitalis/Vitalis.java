@@ -1,12 +1,13 @@
 package com.teamvitalis.vitalis;
 
-import com.teamvitalis.vitalis.listeners.GuiListener;
-import com.teamvitalis.vitalis.listeners.PlayerListener;
+import java.util.logging.Logger;
 
-import com.teamvitalis.vitalis.database.Database;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
+import com.teamvitalis.vitalis.database.Database;
+import com.teamvitalis.vitalis.listeners.GuiListener;
+import com.teamvitalis.vitalis.listeners.PlayerListener;
+import com.teamvitalis.vitalis.object.AbilityLoader;
 
 public class Vitalis extends JavaPlugin {
 	
@@ -23,6 +24,10 @@ public class Vitalis extends JavaPlugin {
 		
 		new GuiListener(this);
 		new PlayerListener(this);
+		
+		//Load internal abilities
+		AbilityLoader loader = new AbilityLoader(this);
+		loader.loadAbilities("com.teamvitalis.vitalis.abilities");
 	}
 	
 	@Override
