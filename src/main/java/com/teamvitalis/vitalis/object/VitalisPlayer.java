@@ -36,6 +36,12 @@ public class VitalisPlayer {
 		PLAYERS.put(this.uuid, this);
 	}
 	
+	public static VitalisPlayer fromPlayer(Player player) {
+		UUID uuid = player.getUniqueId();
+		if (!PLAYERS.containsKey(uuid)) return null;
+		return PLAYERS.get(uuid);
+	}
+	
 	/**
 	 * Get the UUID of the {@link VitalisPlayer}
 	 * @return UUID of the {@link VitalisPlayer}
