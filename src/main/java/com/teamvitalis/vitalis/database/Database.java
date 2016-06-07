@@ -1,5 +1,8 @@
 package com.teamvitalis.vitalis.database;
 
+import java.io.File;
+
+import com.teamvitalis.vitalis.Vitalis;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -46,9 +49,9 @@ public class Database {
                 return new HikariDataSource(config);
             }
             case "sqlite": {
-                this.config.setPoolName("AuthMeSQLitePool");
+                this.config.setPoolName("VitalisSQLitePool");
                 this.config.setDriverClassName("org.sqlite.JDBC");
-                this.config.setJdbcUrl("jdbc:sqlite:plugins/AuthMe/" + this.database + ".db");
+                this.config.setJdbcUrl("jdbc:sqlite:plugins/Vitalis/" + this.database + ".db");
                 this.config.setConnectionTestQuery("SELECT 1");
                 this.config.setMaxLifetime(60000);
                 this.config.setIdleTimeout(45000);
@@ -94,4 +97,22 @@ public class Database {
         return this.dataSource;
     }
 
+    public static void initiateFile() {
+    	File folder = Vitalis.plugin().getDataFolder();
+    	if (!folder.exists()) {
+    		try {
+    			folder.mkdir();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	File file = new File(folder + File.separator + "database.db");
+    	if (!file.exists()) {
+    		try {
+    			file.createNewFile();
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
+    }
 }

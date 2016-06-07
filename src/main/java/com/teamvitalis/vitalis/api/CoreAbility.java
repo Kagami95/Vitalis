@@ -3,7 +3,9 @@ package com.teamvitalis.vitalis.api;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public abstract class CoreAbility implements Ability{
@@ -11,9 +13,21 @@ public abstract class CoreAbility implements Ability{
 	private static ConcurrentHashMap<Player, CoreAbility> playerInstances = new ConcurrentHashMap<>();
 	
 	private long startTime;
-	private Player player;
-	private VitalisPlayer vPlayer;
+	public Player player;
+	public VitalisPlayer vPlayer;
 	private boolean started;
+	private BukkitRunnable run = new BukkitRunnable() {
+
+		@Override
+		public void run() {
+			if (!playerInstances.containsKey(player)) {
+				cancel();
+			}
+			progress();
+			
+		}
+		
+	};
 	
 	public CoreAbility() {}
 	
@@ -33,23 +47,18 @@ public abstract class CoreAbility implements Ability{
 		if (!playerInstances.containsKey(player)){
 			playerInstances.put(player, this);
 		}
+		
+		run.runTaskTimer(Vitalis.plugin(), 0, getTickRate());
 	}
 	
 	public void remove() {
 		if (player == null) {
 			return;
 		}
-		
 		playerInstances.remove(player);
 	}
 	
-	public void progressAll() {
-		for (Player player : playerInstances.keySet()) {
-			playerInstances.get(player).progress();
-		}
-	}
-	
-	public void removeAll() {
+	public static void removeAll() {
 		for (Player player : playerInstances.keySet()) {
 			playerInstances.get(player).remove();
 		}
@@ -76,4 +85,12 @@ public abstract class CoreAbility implements Ability{
 		return true;
 	}
 	
+	/**
+	 * This is the tick rate of the runnable for the ability. Override this to change it.
+	 * Defaults to 1.
+	 * @return tick rate
+	 */
+	public int getTickRate() {
+		return 1;
+	}
 }
