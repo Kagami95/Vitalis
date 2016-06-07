@@ -11,8 +11,8 @@ public abstract class CoreAbility implements Ability{
 	private static ConcurrentHashMap<Player, CoreAbility> playerInstances = new ConcurrentHashMap<>();
 	
 	private long startTime;
-	private Player player;
-	private VitalisPlayer vPlayer;
+	public Player player;
+	public VitalisPlayer vPlayer;
 	private boolean started;
 	
 	public CoreAbility() {}
