@@ -4,15 +4,17 @@ import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.teamvitalis.vitalis.api.CoreAbility;
 import com.teamvitalis.vitalis.database.Database;
+import com.teamvitalis.vitalis.listeners.AbilityListener;
 import com.teamvitalis.vitalis.listeners.GuiListener;
 import com.teamvitalis.vitalis.listeners.PlayerListener;
 import com.teamvitalis.vitalis.object.AbilityLoader;
 
 public class Vitalis extends JavaPlugin {
 	
-	public static Vitalis plugin;
-	public static Logger log;
+	private static Vitalis plugin;
+	private static Logger log;
 
 	private static Database database;
 	
@@ -20,10 +22,12 @@ public class Vitalis extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		log = this.getLogger();
+		Database.initiateFile();
 		database = new Database();
 		
 		new GuiListener(this);
 		new PlayerListener(this);
+		new AbilityListener(this);
 		
 		//Load internal abilities
 		AbilityLoader loader = new AbilityLoader(this);
@@ -33,10 +37,22 @@ public class Vitalis extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		//TODO
+		plugin = null;
+		log = null;
+		database = null;
+		
+		CoreAbility.removeAll();
 	}
 
-	public static Database getVitalisDatabase() {
+	public static Database database() {
 		return database;
 	}
 
+	public static Vitalis plugin() {
+		return plugin;
+	}
+	
+	public static Logger logger() {
+		return log;
+	}
 }

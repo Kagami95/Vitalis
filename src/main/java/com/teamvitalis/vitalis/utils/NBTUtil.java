@@ -88,7 +88,7 @@ public class NBTUtil {
     public static ItemStack setString(ItemStack item, String key, String Text) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -110,7 +110,7 @@ public class NBTUtil {
     public static String getString(ItemStack item, String key) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -130,7 +130,7 @@ public class NBTUtil {
     public static ItemStack setInt(ItemStack item, String key, Integer i) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -152,7 +152,7 @@ public class NBTUtil {
     public static Integer getInt(ItemStack item, String key) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -172,7 +172,7 @@ public class NBTUtil {
     public static ItemStack setDouble(ItemStack item, String key, Double d) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -194,7 +194,7 @@ public class NBTUtil {
     public static Double getDouble(ItemStack item, String key) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -214,7 +214,7 @@ public class NBTUtil {
     public static ItemStack setBoolean(ItemStack item, String key, Boolean d) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -236,7 +236,7 @@ public class NBTUtil {
     public static Boolean getBoolean(ItemStack item, String key) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);
@@ -256,7 +256,7 @@ public class NBTUtil {
     public static Boolean hasKey(ItemStack item, String key) {
         Object nmsitem = getNMSItemStack(item);
         if (nmsitem == null) {
-        	Vitalis.log.info("Custom NBT data returned null! (Outdated Plugin?)");
+        	Vitalis.logger().info("Custom NBT data returned null! (Outdated Plugin?)");
             return null;
         }
         Object nbttag = getNBTTagCompound(nmsitem);

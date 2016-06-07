@@ -15,7 +15,7 @@ public class Config {
 	public FileConfiguration config;
 
 	public Config(File file) {
-		this.plugin = Vitalis.plugin;
+		this.plugin = Vitalis.plugin();
 		this.file = new File(plugin.getDataFolder() + File.separator + file);
 		this.config = YamlConfiguration.loadConfiguration(this.file);
 		reload();
