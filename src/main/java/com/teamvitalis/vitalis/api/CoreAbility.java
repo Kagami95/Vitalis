@@ -87,10 +87,10 @@ public abstract class CoreAbility implements Ability{
 	
 	/**
 	 * This is the tick rate of the runnable for the ability. Override this to change it.
-	 * Defaults to 1.
+	 * Defaults to 0.
 	 * @return tick rate
 	 */
 	public int getTickRate() {
-		return 1;
+		return 0;
 	}
 }
