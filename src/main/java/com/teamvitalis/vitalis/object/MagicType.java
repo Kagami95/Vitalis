@@ -2,6 +2,8 @@ package com.teamvitalis.vitalis.object;
 
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
+
 import com.teamvitalis.vitalis.configuration.Lang;
 
 public class MagicType {
@@ -11,11 +13,13 @@ public class MagicType {
 	private String name;
 	private Lang displayName;
 	private int defaultMana;
+	private ChatColor color;
 	
-	public MagicType(String name, Lang displayName, int defaultMana) {
+	public MagicType(String name, Lang displayName, int defaultMana, ChatColor color) {
 		setName(name);
 		setDisplayName(displayName);
 		setDefaultMana(defaultMana);
+		setChatColor(color);
 		TYPES.put(getName(), this);
 	}
 
@@ -41,6 +45,14 @@ public class MagicType {
 
 	public void setDefaultMana(int defaultMana) {
 		this.defaultMana = defaultMana;
+	}
+	
+	public ChatColor getChatColor() {
+		return color;
+	}
+	
+	public void setChatColor(ChatColor color) {
+		this.color = color;
 	}
 	
 	public String toString() {

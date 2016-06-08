@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.teamvitalis.vitalis.api.CoreAbility;
+import com.teamvitalis.vitalis.commands.CommandLoader;
 import com.teamvitalis.vitalis.database.Database;
 import com.teamvitalis.vitalis.listeners.AbilityListener;
 import com.teamvitalis.vitalis.listeners.GuiListener;
@@ -15,7 +16,6 @@ public class Vitalis extends JavaPlugin {
 	
 	private static Vitalis plugin;
 	private static Logger log;
-
 	private static Database database;
 	
 	@Override
@@ -28,10 +28,9 @@ public class Vitalis extends JavaPlugin {
 		new GuiListener(this);
 		new PlayerListener(this);
 		new AbilityListener(this);
-		
-		//Load internal abilities
-		AbilityLoader loader = new AbilityLoader(this);
-		loader.loadAbilities("com.teamvitalis.vitalis.abilities");
+	
+		new CommandLoader(this).loadCommands();
+		new AbilityLoader(this).loadAbilities("com.teamvitalis.vitalis.abilities");
 	}
 	
 	@Override

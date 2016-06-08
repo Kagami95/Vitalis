@@ -26,7 +26,6 @@ public abstract class CoreAbility implements Ability{
 			progress();
 			
 		}
-		
 	};
 	
 	public CoreAbility() {}
