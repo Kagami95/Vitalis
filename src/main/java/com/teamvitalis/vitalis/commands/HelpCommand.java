@@ -19,7 +19,8 @@ public class HelpCommand extends CommandBase{
 	@Override
 	public void execute(CommandSender sender, List<String> args) {
 		if (!isCorrectLength(0, 1, args.size())) {
-			sender.sendMessage(error(ChatColor.RED, "Invalid length"));
+			sender.sendMessage(error(ChatColor.RED, "Invalid length!"));
+			return;
 		}
 		
 		for (CommandBase base : commands()) {

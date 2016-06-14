@@ -20,11 +20,9 @@ public abstract class CoreAbility implements Ability{
 
 		@Override
 		public void run() {
-			if (!playerInstances.containsKey(player)) {
+			if (!progress()) {
 				cancel();
 			}
-			progress();
-			
 		}
 	};
 	
@@ -92,4 +90,12 @@ public abstract class CoreAbility implements Ability{
 	public int getTickRate() {
 		return 0;
 	}
+	
+	public static enum Type {
+		CLICK, SNEAK, CUSTOM;
+	}
+	
+	public abstract Type getType();
+	
+	public abstract void newInstance(Player player);
 }

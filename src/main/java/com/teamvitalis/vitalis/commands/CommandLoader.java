@@ -22,6 +22,9 @@ public class CommandLoader {
 		
 		//TODO: call constructors of commands
 		new HelpCommand();
+		new ChooseCommand();
+		new BindCommand();
+		new ClassCommand();
 		
 		CommandExecutor exe = new CommandExecutor() {
 
@@ -29,6 +32,7 @@ public class CommandLoader {
 			public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 				if (args.length == 0) {
 					//TODO: decide on basic message
+					sender.sendMessage("Hi");
 					return true;
 				}
 				

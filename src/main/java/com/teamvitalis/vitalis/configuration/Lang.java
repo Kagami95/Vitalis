@@ -4,7 +4,16 @@ import org.bukkit.ChatColor;
 
 public enum Lang {
 
-	EXAMPLE ("example", new String[] {"%player"});
+	PYRO_DISPLAY("Chat.DisplayNames.Pyromancy"),
+	CRYO_DISPLAY("Chat.DisplayNames.Cryomancy"),
+	BIO_DISPLAY("Chat.DisplayNames.Biomancy"),
+	NECRO_DISPLAY("Chat.DisplayNames.Necromancy"),
+	AERO_DISPLAY("Chat.DisplayNames.Aeromancy"),
+	ELECTRO_DISPLAY("Chat.DisplayNames.Electromancy"),
+	PSYCHO_DISPLAY("Chat.DisplayNames.Psychomancy"),
+	ETHER_DISPLAY("Chat.DisplayNames.Ethermancy"),
+	SOLIS_DISPLAY("Chat.DisplayNames.Solismancy"),
+	LUNA_DISPLAY("Chat.DisplayNames.Lunamancy");
 	
 	private String path;
 	private String[] args;

@@ -2,6 +2,8 @@ package com.teamvitalis.vitalis.api;
 
 import org.bukkit.Location;
 
+import com.teamvitalis.vitalis.object.ClassType;
+
 public interface Ability {
 	
 	/**
@@ -15,6 +17,12 @@ public interface Ability {
 	 * @return ability description
 	 */
 	public String getDescription();
+	
+	/**
+	 * Get the {@link ClassType} of the ability
+	 * @return {@link ClassType} of the ability
+	 */
+	public ClassType getClassType();
 	
 	/**
 	 * Get the location of the ability
@@ -31,7 +39,7 @@ public interface Ability {
 	/**
 	 * Update ability
 	 */
-	public void progress();
+	public boolean progress();
 	
 	/**
 	 * Remove ability
