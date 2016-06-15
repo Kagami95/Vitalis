@@ -3,16 +3,20 @@ package com.teamvitalis.vitalis;
 import java.io.File;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.teamvitalis.vitalis.commands.CommandLoader;
 import com.teamvitalis.vitalis.configuration.Config;
 import com.teamvitalis.vitalis.configuration.LangConfig;
+import com.teamvitalis.vitalis.database.DBMethods;
 import com.teamvitalis.vitalis.database.Database;
 import com.teamvitalis.vitalis.listeners.AbilityListener;
 import com.teamvitalis.vitalis.listeners.GuiListener;
 import com.teamvitalis.vitalis.listeners.PlayerListener;
 import com.teamvitalis.vitalis.object.AbilityLoader;
+import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class Vitalis extends JavaPlugin {
 	
@@ -30,6 +34,11 @@ public class Vitalis extends JavaPlugin {
 		lang = new LangConfig();
 		Database.initiateFile();
 		database = new Database();
+		new DBMethods(database).configureDatabase();
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			VitalisPlayer.load(player);
+		}
 		
 		new GuiListener(this);
 		new PlayerListener(this);

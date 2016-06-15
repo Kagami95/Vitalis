@@ -30,6 +30,10 @@ public class CommandLoader {
 
 			@Override
 			public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+				for (int i = 0; i < args.length; i++) {
+					args[i] = args[i];
+				}
+				
 				if (args.length == 0) {
 					//TODO: decide on basic message
 					sender.sendMessage("Hi");

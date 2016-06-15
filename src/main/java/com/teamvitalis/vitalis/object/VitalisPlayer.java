@@ -1,10 +1,14 @@
 package com.teamvitalis.vitalis.object;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
+
+import com.teamvitalis.vitalis.database.DBMethods;
 
 public abstract class VitalisPlayer {
 
@@ -27,6 +31,60 @@ public abstract class VitalisPlayer {
 		this.setClassType(classType);
 		this.setAbilities(abilities);
 		PLAYERS.put(this.getUniqueId(), this);
+	}
+	
+	public static boolean load(Player player) {
+		UUID uuid = player.getUniqueId();
+		ResultSet rs = DBMethods.readQuery("SELECT * FROM vitalis_players WHERE uuid = '" + uuid.toString() + "';");
+		try {
+			if (!rs.next()) {
+				//Do not create a new instance yet, created
+				//when player uses '/v class' command
+				return false;
+			} else {
+				String name = player.getName();
+				if (name != rs.getString("name")) {
+					DBMethods.modifyQuery("UPDATE vitalis_players SET name = '" + name + "' WHERE uuid = '" + uuid.toString() + "';"); 
+				}
+				ClassType type = ClassType.valueOf(rs.getString("class"));
+				HashMap<Integer, String> abilities = new HashMap<>();
+				for (int i = 1; i < 10; i++) {
+					String ability = rs.getString("slot" + i);
+					if (ability == null) {
+						continue;
+					}
+					abilities.put(i, ability);
+				}
+				if (type == ClassType.MANCER) {
+					new Mancer(player, abilities);
+				} else if (type == ClassType.MECHANIST) {
+					new Mechanist(player, abilities);
+				}
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static void update(Player player) {
+		VitalisPlayer v = fromPlayer(player);
+		ResultSet rs = DBMethods.readQuery("SELECT * FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");
+		try {
+			if (!rs.next()) {
+				DBMethods.modifyQuery("INSERT INTO vitalis_players (uuid, name, class) VALUES ('" + player.getUniqueId().toString() + "', '" + player.getName() + "', '" + v.getClassType().toString() + "');");
+				return;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		DBMethods.modifyQuery("UPDATE vitalis_players SET uuid = '" + player.getUniqueId().toString() + "', name = '" + player.getName() + "', class = '" + v.getClassType().toString() + "' WHERE uuid = '" + v.getUniqueId().toString() + "';");
+		for (int i = 1; i < 10; i++) {
+			String ability = v.getAbility(i);
+			DBMethods.modifyQuery("UPDATE vitalis_players SET slot" + i + " = '" + ability + "' WHERE uuid = '" + player.getUniqueId().toString() + "';");
+		}
 	}
 	
 	/**

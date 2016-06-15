@@ -23,6 +23,7 @@ public class Mancer extends VitalisPlayer{
 	public Mancer(Player player, HashMap<Integer, String> abilities) {
 		super(player, ClassType.MANCER, abilities);
 		mancers.put(player, this);
+		update(player);
 	}
 	
 	public MagicType getMagicType() {

@@ -17,6 +17,7 @@ public class Mechanist extends VitalisPlayer{
 	public Mechanist(Player player, HashMap<Integer, String> abilities) {
 		super(player, ClassType.MECHANIST, abilities);
 		mechanists.put(player, this);
+		update(player);
 	}
 	
 	/**
@@ -61,6 +62,9 @@ public class Mechanist extends VitalisPlayer{
 
 	@Override
 	public boolean canUse(String ability) {
+		if (getRemainingUses(ability) == 0) {
+			return false;
+		}
 		return true;
 	}
 }

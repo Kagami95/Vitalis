@@ -15,7 +15,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.events.PlayerJumpEvent;
-import com.teamvitalis.vitalis.object.Mancer;
+import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class PlayerListener implements Listener{
 	
@@ -36,8 +36,7 @@ public class PlayerListener implements Listener{
 	public void onLogin(PlayerLoginEvent event) {
 		Player player = event.getPlayer();
 		JUMPS.put(player, player.getStatistic(Statistic.JUMP));
-		HashMap<Integer, String> abilities = new HashMap<>();
-		new Mancer(player, abilities);
+		VitalisPlayer.load(player);
 	}
 
 	@EventHandler
@@ -67,5 +66,6 @@ public class PlayerListener implements Listener{
 	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		JUMPS.remove(player);
+		VitalisPlayer.update(player);
 	}
 }

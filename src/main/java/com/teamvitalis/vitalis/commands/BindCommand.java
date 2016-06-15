@@ -26,9 +26,11 @@ public class BindCommand extends CommandBase{
 			sender.sendMessage(error(ChatColor.RED, "Player only command!"));
 			return;
 		}
+		
 		Player player = (Player) sender;
 		int slot = -1;
 		String ability = args.get(0);
+		
 		if (args.size() == 1) {
 			slot = player.getInventory().getHeldItemSlot();
 		} else if (args.size() == 2) {
@@ -49,11 +51,11 @@ public class BindCommand extends CommandBase{
 			}
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("That version of the command must be run by a player.");
+			sender.sendMessage(error(ChatColor.RED, "That version of the command must be run by a player."));
 			return;
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		vPlayer.setAbility(slot, ability);
-		sender.sendMessage("Your slot" + (slot + 1) + " ability has been set to " + ability);
+		sender.sendMessage(ChatColor.GREEN + "Your slot " + (slot + 1) + " ability has been set to " + ability);
 	}
 }
