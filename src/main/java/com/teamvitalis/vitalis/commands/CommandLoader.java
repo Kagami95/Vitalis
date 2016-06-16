@@ -25,6 +25,7 @@ public class CommandLoader {
 		new ChooseCommand();
 		new BindCommand();
 		new ClassCommand();
+		new WhoCommand();
 		
 		CommandExecutor exe = new CommandExecutor() {
 

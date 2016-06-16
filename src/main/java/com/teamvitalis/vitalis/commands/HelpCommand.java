@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.teamvitalis.vitalis.configuration.Lang;
 import com.teamvitalis.vitalis.object.MagicType;
 
 public class HelpCommand extends CommandBase{
@@ -13,13 +14,13 @@ public class HelpCommand extends CommandBase{
 	String[] magic = {"magic", "m", "voodoo", "magics"};
 
 	public HelpCommand() {
-		super("Help", "Shows the help message for any command.", "/v help <topic>", new String[] {"help", "h", "?"});
+		super("Help", Lang.HELP_COMMAND_HELP.toString(), "/v help <topic>", new String[] {"help", "h", "?"});
 	}
 
 	@Override
 	public void execute(CommandSender sender, List<String> args) {
 		if (!isCorrectLength(0, 1, args.size())) {
-			sender.sendMessage(error(ChatColor.RED, "Invalid length!"));
+			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_LENGTH.toString()));
 			return;
 		}
 		

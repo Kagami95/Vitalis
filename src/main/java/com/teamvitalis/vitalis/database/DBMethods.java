@@ -29,14 +29,14 @@ public class DBMethods {
 	public void configureDatabase() {
 		if (!tableExists("vitalis_players")) {
 			Vitalis.logger().info("Creating new vitalis_players table");
-			String query = "CREATE TABLE vitalis_players (uuid %uuid, name %name, class %class, slot1 %1, slot2 %2, slot3 %3, slot4 %4, slot5 %5, slot6 %6, slot7 %7, slot8 %8, slot9 %9);";
+			String query = "CREATE TABLE vitalis_players (uuid %uuid, name %name, class %class, magic %magic, slot1 %1, slot2 %2, slot3 %3, slot4 %4, slot5 %5, slot6 %6, slot7 %7, slot8 %8, slot9 %9);";
 			if (database.getDriver().equalsIgnoreCase("mysql")) {
-				query = query.replace("%uuid", "varchar(36)").replace("%name", "varchar(255)").replace("%class", "varchar(16)");
+				query = query.replace("%uuid", "varchar(36)").replace("%name", "varchar(255)").replace("%class", "varchar(16)").replace("%magic", "varchar(32)");
 				for (int i = 1; i < 10; i++) {
 					query = query.replace("%" + i, "varchar(36)");
 				}
 			} else if (database.getDriver().equalsIgnoreCase("sqlite")) {
-				query = query.replace("%uuid", "TEXT(36)").replace("%name", "TEXT(255)").replace("%class", "TEXT(16)");
+				query = query.replace("%uuid", "TEXT(36)").replace("%name", "TEXT(255)").replace("%class", "TEXT(16)").replace("%magic", "TEXT(32)");
 				for (int i = 1; i < 10; i++) {
 					query = query.replace("%" + i, "TEXT(36)");
 				}

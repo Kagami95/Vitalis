@@ -1,5 +1,7 @@
 package com.teamvitalis.vitalis.object;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
@@ -10,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.teamvitalis.vitalis.api.CoreAbility;
 import com.teamvitalis.vitalis.api.MagicAbility;
+import com.teamvitalis.vitalis.database.DBMethods;
 
 public class Mancer extends VitalisPlayer{
 	
@@ -24,6 +27,17 @@ public class Mancer extends VitalisPlayer{
 		super(player, ClassType.MANCER, abilities);
 		mancers.put(player, this);
 		update(player);
+		ResultSet rs = DBMethods.readQuery("SELECT magic FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");
+		try {
+			if (rs.next()) {
+				MagicType magic = MagicType.fromName(rs.getString("magic"));
+				if (magic != null) {
+					type = magic;
+				}
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public MagicType getMagicType() {
@@ -32,6 +46,7 @@ public class Mancer extends VitalisPlayer{
 	
 	public void setMagicType(MagicType type) {
 		this.type = type;
+		DBMethods.modifyQuery("UPDATE vitalis_players SET magic = '" + type.getName() + "' WHERE uuid = '" + getUniqueId().toString() + "';");
 	}
 	
 	public double getMana() {

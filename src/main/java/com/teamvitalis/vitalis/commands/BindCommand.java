@@ -7,23 +7,24 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.teamvitalis.vitalis.configuration.Lang;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class BindCommand extends CommandBase{
 
 	public BindCommand() {
-		super("Bind", "This command allows you to bind an ability to your hotbar.", "/v bind <ability> [slot] [player]", new String[] {"bind", "b"});
+		super("Bind", Lang.BIND_COMMAND_HELP.toString(), "/v bind <ability> [slot] [player]", new String[] {"bind", "b"});
 		
 	}
 
 	@Override
 	public void execute(CommandSender sender, List<String> args) {
 		if (!isCorrectLength(1, 3, args.size())) {
-			sender.sendMessage(error(ChatColor.RED, "Invalid length!"));
+			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_LENGTH.toString()));
 			return;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(error(ChatColor.RED, "Player only command!"));
+			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_USER_1.toString()));
 			return;
 		}
 		
@@ -34,28 +35,28 @@ public class BindCommand extends CommandBase{
 		if (args.size() == 1) {
 			slot = player.getInventory().getHeldItemSlot();
 		} else if (args.size() == 2) {
-			slot = Integer.parseInt(args.get(1));
+			slot = Integer.parseInt(args.get(1))-1;
 		} else if (args.size() == 3) {
-			slot = Integer.parseInt(args.get(1));
+			slot = Integer.parseInt(args.get(1))-1;
 			Player target = Bukkit.getPlayer(args.get(2));
 			if (target != null) {
 				VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(target);
 				vPlayer.setAbility(slot, ability);
 				if (sender instanceof Player) {
-					target.sendMessage(ChatColor.GREEN + player.getName() + " has set your slot " + (slot + 1) + " ability to " + ability);
+					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", sender.getName()).replace("%slot%", "" + slot).replace("%ability%", ability));
 				} else {
-					target.sendMessage(ChatColor.GREEN + "Console has set your slot " + (slot + 1) + " ability to " + ability);
+					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", "Console").replace("%slot%", "" + slot).replace("%ability%", ability));
 				}
-				sender.sendMessage(ChatColor.GREEN + "You have set " + target.getName() + "'s slot " + (slot + 1) + " ability to " + ability);
+				sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_SENDER.toString().replace("%target%", target.getName()).replace("%slot%", "" + slot).replace("%ability%", ability));
 				return;
 			}
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(error(ChatColor.RED, "That version of the command must be run by a player."));
+			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_USER_1.toString()));
 			return;
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		vPlayer.setAbility(slot, ability);
-		sender.sendMessage(ChatColor.GREEN + "Your slot " + (slot + 1) + " ability has been set to " + ability);
+		sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS.toString().replace("%slot%", "" + slot).replace("%ability%", ability));
 	}
 }
