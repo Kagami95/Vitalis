@@ -16,12 +16,14 @@ public class AbilityInfo {
 	private Class<? extends CoreAbility> clase;
 	private boolean addon;
 	private CoreAbility ability;
+	//private UUID uuid;
 
 	public AbilityInfo(CoreAbility abil) {
 		this.ability = abil;
 		this.name = abil.getName();
 		this.clase = abil.getClass();
 		this.addon = (abil instanceof AddonAbility);
+		//this.uuid = generateUUID();
 		abilities.put(name, this);
 		classMap.put(clase, this);
 	}
@@ -67,7 +69,15 @@ public class AbilityInfo {
 	public String getName() {
 		return name;
 	}
-	
+	/*
+	/**
+	 * Used to get the UUID of the Ability.
+	 * @return UUID of Ability
+	 *
+	public UUID getUniqueId() {
+		return uuid;
+	}
+	*/
 	public static List<AbilityInfo> getAbilitiesAsList() {
 		List<AbilityInfo> list = new ArrayList<>();
 		for (AbilityInfo info : abilities.values()) {
@@ -80,10 +90,10 @@ public class AbilityInfo {
 		return abilities;
 	}
 	
-	public static List<String> getAbilityNamesAsList() {
+	public static List<String> getAbilityUUIDSAsList() {
 		List<String> list = new ArrayList<>();
-		for (String name : abilities.keySet()) {
-			list.add(name);
+		for (String uuid : abilities.keySet()) {
+			list.add(uuid);
 		}
 		return list;
 	}
@@ -95,4 +105,20 @@ public class AbilityInfo {
 	public boolean isAddon() {
 		return addon;
 	}
+	/*
+	private UUID generateUUID() {
+		UUID uuid = UUID.randomUUID();
+		ResultSet rs = DBMethods.readQuery("SELECT uuid FROM ability_uuids WHERE default = '" + name + "';");
+		try {
+			if (rs.next()) {
+				uuid = UUID.fromString(rs.getString("uuid"));
+			} else {
+				DBMethods.modifyQuery("INSERT INTO ability_uuids (uuid, default) VALUES ('" + uuid.toString() + "', '" + name + "');");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return uuid;
+	}
+	*/
 }

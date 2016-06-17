@@ -12,8 +12,8 @@ public class Database {
     private String address = "localhost";
     private String port = "3306";
     private String database = "database";
-    private String username = "user";
-    private String password = "pass";
+    private String username = "root";
+    private String password = "";
     private HikariDataSource dataSource;
 
     HikariConfig config = new HikariConfig();
@@ -34,6 +34,7 @@ public class Database {
 
     public Database() {
         this.dataSource = applyConfiguration();
+        Vitalis.logger().info("[SQL] HikariDataSource initialized.");
     }
 
     private HikariDataSource applyConfiguration() {
@@ -43,6 +44,7 @@ public class Database {
                         this.port + "/" + this.database);
                 this.config.setUsername(this.username);
                 this.config.setPassword(this.password);
+                this.config.setDriverClassName("com.mysql.jdbc.Driver");
                 this.config.addDataSourceProperty("cachePrepStmts", "true");
                 this.config.addDataSourceProperty("prepStmtCacheSize", "250");
                 this.config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -56,6 +58,7 @@ public class Database {
                 this.config.setMaxLifetime(60000);
                 this.config.setIdleTimeout(45000);
                 this.config.setMaximumPoolSize(50);
+                Vitalis.logger().info("[SQL] Initializing HikariDataSource");
                 return new HikariDataSource(config);
             }
             default:

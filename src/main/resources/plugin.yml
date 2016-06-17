@@ -2,3 +2,7 @@ name: Vitalis
 main: com.teamvitalis.vitalis.Vitalis
 version: ${project.version}
 author: vitalis
+commands:
+    vitalis:
+        aliases: [vitalis, v]
+        description: Basic command for Vitalis

@@ -1,13 +1,16 @@
 package com.teamvitalis.vitalis.object;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-public class VitalisPlayer {
+import com.teamvitalis.vitalis.database.DBMethods;
+
+public abstract class VitalisPlayer {
 
 	private static final ConcurrentHashMap<UUID, VitalisPlayer> PLAYERS = new ConcurrentHashMap<>();
 	
@@ -15,27 +18,80 @@ public class VitalisPlayer {
 	private String name;
 	private long joinDate;
 	private long lastJoin;
-	private MagicType magicType;
-	private double mana;
-	private double maxMana;
-	private ItemStack[] manaInventory;
-	private HashMap<Integer, String> spells;
+	private ClassType classType;
+	private HashMap<Integer, String> abilities;
 	
-	public VitalisPlayer(Player player, MagicType magicType, double mana, double maxMana, ItemStack[] manaInventory, HashMap<Integer, String> spells) {
-		this(player.getUniqueId(), player.getName(), magicType, mana, maxMana, manaInventory, spells);
+	public VitalisPlayer(Player player, ClassType classType, HashMap<Integer, String> abilities) {
+		this(player.getUniqueId(), player.getName(), classType, abilities);
 	}
 	
-	public VitalisPlayer(UUID uuid, String name, MagicType magicType, double mana, double maxMana, ItemStack[] manaInventory, HashMap<Integer, String> spells) {
+	public VitalisPlayer(UUID uuid, String name, ClassType classType, HashMap<Integer, String> abilities) {
 		this.setUniqueId(uuid);
 		this.setName(name);
-		this.setMagicType(magicType);
-		this.setMana(mana);
-		this.setMaxMana(maxMana);
-		this.setManaInventory(manaInventory);
-		this.setSpells(spells);
-		PLAYERS.put(this.uuid, this);
+		this.setClassType(classType);
+		this.setAbilities(abilities);
+		PLAYERS.put(this.getUniqueId(), this);
 	}
 	
+	public static boolean load(Player player) {
+		UUID uuid = player.getUniqueId();
+		ResultSet rs = DBMethods.readQuery("SELECT * FROM vitalis_players WHERE uuid = '" + uuid.toString() + "';");
+		try {
+			if (!rs.next()) {
+				//Do not create a new instance yet, created
+				//when player uses '/v class' command
+				return false;
+			} else {
+				String name = player.getName();
+				if (name != rs.getString("name")) {
+					DBMethods.modifyQuery("UPDATE vitalis_players SET name = '" + name + "' WHERE uuid = '" + uuid.toString() + "';"); 
+				}
+				ClassType type = ClassType.valueOf(rs.getString("class"));
+				HashMap<Integer, String> abilities = new HashMap<>();
+				for (int i = 1; i < 10; i++) {
+					String ability = rs.getString("slot" + i);
+					if (ability == null) {
+						continue;
+					}
+					abilities.put(i, ability);
+				}
+				if (type == ClassType.MANCER) {
+					new Mancer(player, abilities);
+				} else if (type == ClassType.MECHANIST) {
+					new Mechanist(player, abilities);
+				}
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static void update(Player player) {
+		VitalisPlayer v = fromPlayer(player);
+		ResultSet rs = DBMethods.readQuery("SELECT * FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");
+		try {
+			if (!rs.next()) {
+				DBMethods.modifyQuery("INSERT INTO vitalis_players (uuid, name, class) VALUES ('" + player.getUniqueId().toString() + "', '" + player.getName() + "', '" + v.getClassType().toString() + "');");
+				return;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+		DBMethods.modifyQuery("UPDATE vitalis_players SET uuid = '" + player.getUniqueId().toString() + "', name = '" + player.getName() + "', class = '" + v.getClassType().toString() + "' WHERE uuid = '" + v.getUniqueId().toString() + "';");
+		for (int i = 1; i < 10; i++) {
+			String ability = v.getAbility(i);
+			DBMethods.modifyQuery("UPDATE vitalis_players SET slot" + i + " = '" + ability + "' WHERE uuid = '" + player.getUniqueId().toString() + "';");
+		}
+	}
+	
+	/**
+	 * Returns the {@link VitalisPlayer} associated with the given Player.
+	 * @param player Player used to get {@link VitalisPlayer}
+	 * @return {@link VitalisPlayer} of Player
+	 */
 	public static VitalisPlayer fromPlayer(Player player) {
 		UUID uuid = player.getUniqueId();
 		if (!PLAYERS.containsKey(uuid)) return null;
@@ -107,92 +163,44 @@ public class VitalisPlayer {
 	}
 
 	/**
-	 * Get the MagicType of the {@link VitalisPlayer}
-	 * @return MagicType of the {@link VitalisPlayer}
-	 */
-	public MagicType getMagicType() {
-		return magicType;
-	}
-
-	/**
-	 * Set the MagicType of the {@link VitalisPlayer}
-	 * @param magicType MagicType of the {@link VitalisPlayer}
-	 */
-	public void setMagicType(MagicType magicType) {
-		this.magicType = magicType;
-	}
-
-	/**
-	 * Get the {@link VitalisPlayer}'s current mana
-	 * @return Double value of the {@link VitalisPlayer}'s current mana
-	 */
-	public double getMana() {
-		return mana;
-	}
-
-	/**
-	 * Set the {@link VitalisPlayer}'s current mana
-	 * @param mana Double value of the {@link VitalisPlayer}'s current mana
-	 */
-	public void setMana(double mana) {
-		this.mana = mana;
-	}
-
-	/**
-	 * Get the {@link VitalisPlayer}'s max mana
-	 * @return Double value of the {@link VitalisPlayer}'s max mana
-	 */
-	public double getMaxMana() {
-		return maxMana;
-	}
-
-	/**
-	 * Set the {@link VitalisPlayer}'s max mana
-	 * @param maxMana Double value of the {@link VitalisPlayer}'s max mana
-	 */
-	public void setMaxMana(double maxMana) {
-		this.maxMana = maxMana;
-	}
-
-	/**
-	 * Gets an ItemStack array of the {@link VitalisPlayer}'s mana inventory
-	 * @return ItemStack array of the {@link VitalisPlayer}'s mana inventory
-	 */
-	public ItemStack[] getManaInventory() {
-		return manaInventory;
-	}
-
-	/**
-	 * Set the {@link VitalisPlayer}'s mana inventory
-	 * @param manaInventory ItemStack[] array of items to be saved as the {@link VitalisPlayer}'s mana inventory
-	 */
-	public void setManaInventory(ItemStack[] manaInventory) {
-		this.manaInventory = manaInventory;
-	}
-
-	/**
 	 * Gets a {@link HashMap} of the {@link VitalisPlayer}'s slots and binds
 	 * @return {@link HashMap} of the {@link VitalisPlayer}'s slots and binds
 	 */
-	public HashMap<Integer, String> getSpells() {
-		return spells;
+	public HashMap<Integer, String> getAbilities() {
+		return abilities;
+	}
+	
+	/**
+	 * Get the {@link ClassType} of the {@link VitalisPlayer}
+	 * @return {@link ClassType} of the {@link VitalisPlayer}
+	 */
+	public ClassType getClassType() {
+		return classType;
+	}
+	
+	/**
+	 * Set the {@link ClassType} of the {@link VitalisPlayer}
+	 * @param classType {@link ClassType} of the {@link VitalisPlayer}
+	 */
+	public void setClassType(ClassType classType) {
+		this.classType = classType;
 	}
 	
 	/**
 	 * Set the {@link VitalisPlayer}'s slots and binds
 	 * @param spells {@link HashMap} containing the {@link VitalisPlayer}'s slots and binds
 	 */
-	public void setSpells(HashMap<Integer, String> spells) {
-		this.spells = spells;
+	public void setAbilities(HashMap<Integer, String> abilities) {
+		this.abilities = abilities;
 	}
 	
 	/**
-	 * Gets a spell on a specific slot of the {@link VitalisPlayer}
+	 * Gets an ability on a specific slot of the {@link VitalisPlayer}
 	 * @param slot Integer of the slot to get (0 - 8)
 	 * @return String name of the spell bound to the specified slot
 	 */
-	public String getSpell(int slot) {
-		return getSpells().get(slot);
+	public String getAbility(int slot) {
+		return getAbilities().get(slot);
 	}
 	
 	/**
@@ -200,7 +208,9 @@ public class VitalisPlayer {
 	 * @param slot Integer of the slot to modify (0 - 8)
 	 * @param spell String name of the spell to be bound to the specified slot
 	 */
-	public void setSpell(int slot, String spell) {
-		getSpells().put(slot, spell);
+	public void setAbility(int slot, String ability) {
+		getAbilities().put(slot, ability);
 	}
+	
+	public abstract boolean canUse(String ability);
 }
