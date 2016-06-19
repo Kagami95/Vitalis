@@ -65,9 +65,10 @@ public class LangConfig {
 		
 		config.addDefault("Commands.Errors.InvalidLength", "Invalid length!");
 		config.addDefault("Commands.Errors.InvalidClassType", "Invalid class type!");
-		config.addDefault("Commands.Errors.InvalidMagicType", "Invalid magic type!");
+		config.addDefault("Commands.Errors.InvalidMagicType", "Invalid magic type! %magiclist%");
 		config.addDefault("Commands.Errors.InvalidHelpTopic", "Invalid help topic!");
 		config.addDefault("Commands.Errors.InvalidArgument", "Invalid argument!");
+		config.addDefault("Commands.Errors.InvalidAbility", "Ability doesn't exist!");
 		config.addDefault("Commands.Errors.InvalidTargetPlayer", "Player not found!");
 		config.addDefault("Commands.Errors.PlayerHasMagic", "Player already has magic!");
 		config.addDefault("Commands.Errors.PlayerHasClass", "Player already has class!");

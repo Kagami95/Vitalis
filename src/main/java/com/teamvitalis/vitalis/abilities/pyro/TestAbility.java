@@ -43,16 +43,4 @@ public class TestAbility extends MagicAbility{
 		// TODO Auto-generated method stub
 		return MagicType.PYRO;
 	}
-
-	@Override
-	public Type getType() {
-		// TODO Auto-generated method stub
-		return Type.CLICK;
-	}
-
-	@Override
-	public void newInstance(Player player) {
-		new TestAbility(player);
-	}
-
 }

@@ -26,6 +26,7 @@ public enum Lang {
 	INVALID_USER_1("Commands.Errors.PlayerOnlyCommand"),
 	INVALID_USER_2("Commands.Errors.MancerOnlyCommand"),
 	INVALID_ARG("Commands.Errors.InvalidArgument"),
+	INVALID_ABILITY("Commands.Errors.InvalidAbility"),
 	INVALID_TARGET("Commands.Errors.InvalidTargetPlayer"),
 	INVALID_MAGIC("Commands.Errors.InvalidMagicType"),
 	INVALID_CLASS("Commands.Errors.InvalidClassType"),

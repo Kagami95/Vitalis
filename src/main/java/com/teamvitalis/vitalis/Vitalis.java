@@ -1,6 +1,5 @@
 package com.teamvitalis.vitalis;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -9,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.teamvitalis.vitalis.commands.CommandLoader;
 import com.teamvitalis.vitalis.configuration.Config;
+import com.teamvitalis.vitalis.configuration.ConfigManager;
 import com.teamvitalis.vitalis.configuration.LangConfig;
 import com.teamvitalis.vitalis.database.DBMethods;
 import com.teamvitalis.vitalis.database.Database;
@@ -16,6 +16,7 @@ import com.teamvitalis.vitalis.listeners.AbilityListener;
 import com.teamvitalis.vitalis.listeners.GuiListener;
 import com.teamvitalis.vitalis.listeners.PlayerListener;
 import com.teamvitalis.vitalis.object.AbilityLoader;
+import com.teamvitalis.vitalis.object.CollisionHandler;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class Vitalis extends JavaPlugin {
@@ -30,7 +31,7 @@ public class Vitalis extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		log = this.getLogger();
-		config = new Config(new File("config.yml"));
+		config = new ConfigManager().getConfig();
 		lang = new LangConfig();
 		Database.initiateFile();
 		database = new Database();
@@ -46,6 +47,7 @@ public class Vitalis extends JavaPlugin {
 	
 		new CommandLoader(this).loadCommands();
 		new AbilityLoader(this).loadAbilities("com.teamvitalis.vitalis.abilities.");
+		new CollisionHandler();
 	}
 	
 	@Override

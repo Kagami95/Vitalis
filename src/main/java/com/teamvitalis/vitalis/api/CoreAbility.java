@@ -1,5 +1,11 @@
 package com.teamvitalis.vitalis.api;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
@@ -10,17 +16,19 @@ import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public abstract class CoreAbility implements Ability{
 
-	private static ConcurrentHashMap<Player, CoreAbility> playerInstances = new ConcurrentHashMap<>();
+	private static ConcurrentHashMap<Player, HashMap<UUID, CoreAbility>> playerInstances = new ConcurrentHashMap<>();
 	
 	private long startTime;
 	public Player player;
 	public VitalisPlayer vPlayer;
 	private boolean started;
+	private UUID uuid;
 	private BukkitRunnable run = new BukkitRunnable() {
 
 		@Override
 		public void run() {
-			if (!progress()) {
+			if (!progress() || !playerInstances.get(player).containsKey(uuid)) {
+				remove();
 				cancel();
 			}
 		}
@@ -40,9 +48,14 @@ public abstract class CoreAbility implements Ability{
 		
 		this.started = true;
 		this.startTime = System.currentTimeMillis();
+		this.uuid = UUID.randomUUID();
 		
 		if (!playerInstances.containsKey(player)){
-			playerInstances.put(player, this);
+			playerInstances.put(player, new HashMap<>());
+		}
+		
+		if (!playerInstances.get(player).containsKey(uuid)) {
+			playerInstances.get(player).put(uuid, this);
 		}
 		
 		run.runTaskTimer(Vitalis.plugin(), 0, getTickRate());
@@ -52,12 +65,14 @@ public abstract class CoreAbility implements Ability{
 		if (player == null) {
 			return;
 		}
-		playerInstances.remove(player);
+		playerInstances.get(player).remove(uuid);
 	}
 	
 	public static void removeAll() {
 		for (Player player : playerInstances.keySet()) {
-			playerInstances.get(player).remove();
+			for (CoreAbility ability : playerInstances.get(player).values()) {
+				ability.remove();
+			}
 		}
 	}
 	
@@ -76,6 +91,28 @@ public abstract class CoreAbility implements Ability{
 	public VitalisPlayer getVitalisPlayer() {
 	    return vPlayer;
 	}
+	
+	public UUID getInstanceUUID() {
+		return uuid;
+	}
+	
+	public static Set<Player> getPlayers() {
+		return playerInstances.keySet();
+	}
+	
+	public static List<CoreAbility> getActiveAbilities() {
+		List<CoreAbility> abils = new ArrayList<>();
+		for (Player player : playerInstances.keySet()) {
+			for (CoreAbility ability : playerInstances.get(player).values()) {
+				abils.add(ability);
+			}
+		}
+		return abils;
+	}
+	
+	public static Collection<CoreAbility> getAbilitiesFromPlayer(Player player) {
+		return playerInstances.containsKey(player) ? playerInstances.get(player).values() : null;
+	}
 
 	@Override
 	public boolean isEnabled() {
@@ -90,12 +127,4 @@ public abstract class CoreAbility implements Ability{
 	public int getTickRate() {
 		return 0;
 	}
-	
-	public static enum Type {
-		CLICK, SNEAK, CUSTOM;
-	}
-	
-	public abstract Type getType();
-	
-	public abstract void newInstance(Player player);
 }
