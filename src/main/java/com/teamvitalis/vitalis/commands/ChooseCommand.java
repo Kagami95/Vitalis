@@ -14,10 +14,7 @@ import com.teamvitalis.vitalis.object.VitalisPlayer;
 public class ChooseCommand extends CommandBase{
 
 	public ChooseCommand() {
-		super("Choose", 
-				Lang.CHOOSE_COMMAND_HELP.toString(), 
-				"/v choose <magic>", 
-				new String[] {"choose", "ch"});
+		super("Choose", Lang.CHOOSE_COMMAND_HELP.toString(), "/v choose <magic>", new String[] {"choose", "ch"});
 	}
 
 	@Override

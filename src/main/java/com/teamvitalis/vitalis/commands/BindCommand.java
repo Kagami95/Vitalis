@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.teamvitalis.vitalis.configuration.Lang;
+import com.teamvitalis.vitalis.object.AbilityInfo;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class BindCommand extends CommandBase{
@@ -30,24 +31,33 @@ public class BindCommand extends CommandBase{
 		
 		Player player = (Player) sender;
 		int slot = -1;
+		String slotNum = "" + slot;
 		String ability = args.get(0);
+		AbilityInfo info = AbilityInfo.fromName(ability);
+		if (info == null) {
+			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_ABILITY.toString()));
+			return;
+		}
 		
 		if (args.size() == 1) {
 			slot = player.getInventory().getHeldItemSlot();
+			slotNum = "" + slot + 1;
 		} else if (args.size() == 2) {
-			slot = Integer.parseInt(args.get(1))-1;
+			slot = Integer.parseInt(args.get(1));
+			slotNum = "" + slot;
 		} else if (args.size() == 3) {
-			slot = Integer.parseInt(args.get(1))-1;
+			slot = Integer.parseInt(args.get(1));
+			slotNum = "" + slot;
 			Player target = Bukkit.getPlayer(args.get(2));
 			if (target != null) {
 				VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(target);
 				vPlayer.setAbility(slot, ability);
 				if (sender instanceof Player) {
-					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", sender.getName()).replace("%slot%", "" + slot).replace("%ability%", ability));
+					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", sender.getName()).replace("%slot%", slotNum).replace("%ability%", ability));
 				} else {
-					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", "Console").replace("%slot%", "" + slot).replace("%ability%", ability));
+					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", "Console").replace("%slot%", slotNum).replace("%ability%", ability));
 				}
-				sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_SENDER.toString().replace("%target%", target.getName()).replace("%slot%", "" + slot).replace("%ability%", ability));
+				sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_SENDER.toString().replace("%target%", target.getName()).replace("%slot%", slotNum).replace("%ability%", ability));
 				return;
 			}
 		}
@@ -57,6 +67,6 @@ public class BindCommand extends CommandBase{
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		vPlayer.setAbility(slot, ability);
-		sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS.toString().replace("%slot%", "" + slot).replace("%ability%", ability));
+		sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS.toString().replace("%slot%", slotNum).replace("%ability%", ability));
 	}
 }

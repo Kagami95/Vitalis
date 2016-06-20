@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.teamvitalis.vitalis.api.AddonAbility;
+import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.api.CoreAbility;
 
 public class AbilityInfo {
@@ -12,10 +13,10 @@ public class AbilityInfo {
 	private static HashMap<String, AbilityInfo> abilities = new HashMap<>();
 	private static HashMap<Class<? extends CoreAbility>, AbilityInfo> classMap = new HashMap<>();
 	
+	private CoreAbility ability;
 	private String name;
 	private Class<? extends CoreAbility> clase;
-	private boolean addon;
-	private CoreAbility ability;
+	private boolean addon, collide;
 	//private UUID uuid;
 
 	public AbilityInfo(CoreAbility abil) {
@@ -23,6 +24,7 @@ public class AbilityInfo {
 		this.name = abil.getName();
 		this.clase = abil.getClass();
 		this.addon = (abil instanceof AddonAbility);
+		this.collide = (abil instanceof Collision);
 		//this.uuid = generateUUID();
 		abilities.put(name, this);
 		classMap.put(clase, this);
@@ -34,7 +36,12 @@ public class AbilityInfo {
 	 * @return AbilityInfo, null if non-existent
 	 */
 	public static AbilityInfo fromName(String name) {
-		return abilities.containsKey(name) ? abilities.get(name) : null;
+		for (String ability : abilities.keySet()) {
+			if (name.equalsIgnoreCase(ability)) {
+				return abilities.get(ability);
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -96,6 +103,14 @@ public class AbilityInfo {
 			list.add(uuid);
 		}
 		return list;
+	}
+	
+	/**
+	 * Checks if the ability obeys collisions. Used for CollisionHandler
+	 * @return if ability obeys collisions.
+	 */
+	public boolean canCollide() {
+		return collide;
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package com.teamvitalis.vitalis.abilities.pyro;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -26,7 +28,7 @@ public class TestAbility extends MagicAbility{
 	}
 
 	@Override
-	public Location getLocation() {
+	public List<Location> getLocations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -43,16 +45,4 @@ public class TestAbility extends MagicAbility{
 		// TODO Auto-generated method stub
 		return MagicType.PYRO;
 	}
-
-	@Override
-	public Type getType() {
-		// TODO Auto-generated method stub
-		return Type.CLICK;
-	}
-
-	@Override
-	public void newInstance(Player player) {
-		new TestAbility(player);
-	}
-
 }
