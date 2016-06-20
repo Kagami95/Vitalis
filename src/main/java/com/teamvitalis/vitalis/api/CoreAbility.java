@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -126,5 +127,9 @@ public abstract class CoreAbility implements Ability{
 	 */
 	public int getTickRate() {
 		return 0;
+	}
+	
+	public Location getLocation() {
+		return getLocations().get(0);
 	}
 }

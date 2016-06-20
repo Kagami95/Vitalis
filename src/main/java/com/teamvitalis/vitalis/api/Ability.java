@@ -1,5 +1,7 @@
 package com.teamvitalis.vitalis.api;
 
+import java.util.List;
+
 import org.bukkit.Location;
 
 import com.teamvitalis.vitalis.object.ClassType;
@@ -25,10 +27,10 @@ public interface Ability {
 	public ClassType getClassType();
 	
 	/**
-	 * Get the location of the ability
-	 * @return location of ability
+	 * Gets a list of Location for the ability. The main location should be located at index of 0.
+	 * @return locations of ability
 	 */
-	public Location getLocation();
+	public List<Location> getLocations();
 	
 	/**
 	 * Get whether the ability is enabled or not

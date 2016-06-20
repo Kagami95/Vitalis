@@ -116,7 +116,9 @@ public class CollisionHandler {
 			for (Collision collision : levels.keySet()) {
 				if (levels.get(collision) == i) {
 					collision.onAbilitiesCollision();
-					map.get(collision).remove();
+					if (collision.removeOnCollide()) {
+						map.get(collision).remove();
+					}
 				}
 			}
 		}
@@ -125,13 +127,17 @@ public class CollisionHandler {
 	public static void runEntitiesCollision(CoreAbility ability, List<LivingEntity> le) {
 		Collision collision = (Collision) ability;
 		collision.onEntitiesCollision(le);
-		ability.remove();
+		if (collision.removeOnCollide()) {
+			ability.remove();
+		}
 	}
 	
 	public static void runBlockCollision(CoreAbility ability, Block b) {
 		Collision collision = (Collision) ability;
 		collision.onBlockCollision(b);
-		ability.remove();
+		if (collision.removeOnCollide()) {
+			ability.remove();
+		}
 	}
 	
 	public static BukkitRunnable getRunnable() {

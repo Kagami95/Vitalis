@@ -1,5 +1,6 @@
 package com.teamvitalis.vitalis.abilities.pyro;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -43,13 +44,14 @@ public class PyroBlast extends MagicAbility implements Collision{
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub
-		return "Click to throw a blast of fire in the clicked direction.";
+		return "Click to throw a blast of fire in the clicked direction. As the blast goes, it will slowly increase in size.";
 	}
 
 	@Override
-	public Location getLocation() {
-		// TODO Auto-generated method stub
-		return loc;
+	public List<Location> getLocations() {
+		List<Location> locs = new ArrayList<>();
+		locs.add(loc);
+		return locs;
 	}
 
 	@Override
@@ -92,9 +94,9 @@ public class PyroBlast extends MagicAbility implements Collision{
 
 	@Override
 	public void onBlockCollision(Block b) {
-		int length = Integer.parseInt("" + Math.floor(particleOffset));
-		for (int x = -length; x < (length + 1); x++) {
-			for (int z = -length; z < (length + 1); z++) {
+		double length = Math.floor(particleOffset);
+		for (double x = -length; x < (length + 1); x+=1) {
+			for (double z = -length; z < (length + 1); z+=1) {
 				Block bb = b.getLocation().add(x, 0, z).getBlock();
 				for (int i = -1; i < 2; i++) {
 					Block top = bb.getLocation().add(0, i, 0).getBlock();
@@ -119,6 +121,11 @@ public class PyroBlast extends MagicAbility implements Collision{
 	@Override
 	public CollisionPriority getPriority() {
 		return CollisionPriority.NORMAL;
+	}
+	
+	@Override
+	public boolean removeOnCollide() {
+		return true;
 	}
 
 	private void loadVariables() {

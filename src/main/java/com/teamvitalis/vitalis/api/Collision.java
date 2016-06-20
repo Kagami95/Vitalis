@@ -16,4 +16,6 @@ public interface Collision {
 	public void onEntitiesCollision(List<LivingEntity> le);
 	
 	public CollisionPriority getPriority();
+	
+	public boolean removeOnCollide();
 }
