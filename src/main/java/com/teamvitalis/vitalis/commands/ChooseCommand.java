@@ -38,7 +38,7 @@ public class ChooseCommand extends CommandBase{
 			sender.sendMessage(error(ChatColor.RED, Lang.HAS_MAGIC.toString()));
 			return;
 		}
-		MagicType type = MagicType.fromName(args.get(0));
+		MagicType type = MagicType.fromName(args.get(0).toLowerCase());
 		if (type == null) {
 			String message = Lang.INVALID_MAGIC.toString();
 			if (Lang.INVALID_MAGIC.toString().contains("%magiclist%")) {
