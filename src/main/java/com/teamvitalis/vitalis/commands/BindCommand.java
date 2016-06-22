@@ -41,7 +41,7 @@ public class BindCommand extends CommandBase{
 		
 		if (args.size() == 1) {
 			slot = player.getInventory().getHeldItemSlot();
-			slotNum = "" + (slot + 1);
+			slotNum = "" + slot + 1;
 		} else if (args.size() == 2) {
 			slot = Integer.parseInt(args.get(1));
 			slotNum = "" + slot;

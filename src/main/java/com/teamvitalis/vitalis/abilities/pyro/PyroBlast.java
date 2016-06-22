@@ -135,10 +135,4 @@ public class PyroBlast extends MagicAbility implements Collision{
 		this.range = Vitalis.config().get().getInt("Abilities.Magic.Pyro.PyroBlast.Range")*4;
 		this.igniteGround = Vitalis.config().get().getBoolean("Abilities.Magic.Pyro.PyroBlast.IgniteGround");
 	}
-
-	@Override
-	public double getCollisionRadius() {
-		// TODO Auto-generated method stub
-		return 2;
-	}
 }
