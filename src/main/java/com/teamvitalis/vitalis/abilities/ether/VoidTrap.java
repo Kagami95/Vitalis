@@ -53,7 +53,7 @@ public class VoidTrap extends MagicAbility {
 	public VoidTrap(Player player) {
 		super(player);
 		
-		this.loc = player.getTargetBlock((HashSet<Byte>)null, 6).getRelative(BlockFace.UP).getLocation();
+		this.loc = player.getTargetBlock((HashSet<Material>) null, 6).getRelative(BlockFace.UP).getLocation();
 		this.radius = 0;
 		this.state = VoidTrapState.CHARGING;
 		this.startTime = System.currentTimeMillis();

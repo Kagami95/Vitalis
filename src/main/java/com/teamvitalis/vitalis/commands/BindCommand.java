@@ -3,70 +3,66 @@ package com.teamvitalis.vitalis.commands;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.teamvitalis.vitalis.configuration.Lang;
 import com.teamvitalis.vitalis.object.AbilityInfo;
+import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
-public class BindCommand extends CommandBase{
+public class BindCommand extends ACommand{
 
 	public BindCommand() {
-		super("Bind", Lang.BIND_COMMAND_HELP.toString(), "/v bind <ability> [slot] [player]", new String[] {"bind", "b"});
+		super("bind", Lang.COMMAND_BIND_HELP.toString(), "/vitalis bind <ability> [slot] [player]", new String[] {"bind", "b"},
+				new String[][] {new String[] {"%custom"}, new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9"}, new String[] {"%player"}});
 		
 	}
 
 	@Override
 	public void execute(CommandSender sender, List<String> args) {
 		if (!isCorrectLength(1, 3, args.size())) {
-			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_LENGTH.toString()));
+			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_LENGTH.toString()));
 			return;
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_USER_1.toString()));
+			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_USER_1.toString()));
 			return;
 		}
 		
 		Player player = (Player) sender;
 		int slot = -1;
-		String slotNum = "" + slot;
+		String slotNum = String.valueOf(slot);
 		String ability = args.get(0);
 		AbilityInfo info = AbilityInfo.fromName(ability);
 		if (info == null) {
-			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_ABILITY.toString()));
+			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_ABILITY.toString()));
 			return;
 		}
 		
 		if (args.size() == 1) {
 			slot = player.getInventory().getHeldItemSlot();
-			slotNum = "" + slot + 1;
+			slotNum = String.valueOf(slot + 1);
 		} else if (args.size() == 2) {
 			slot = Integer.parseInt(args.get(1));
-			slotNum = "" + slot;
+			slotNum = String.valueOf(slot);
 		} else if (args.size() == 3) {
 			slot = Integer.parseInt(args.get(1));
-			slotNum = "" + slot;
+			slotNum = String.valueOf(slot);
 			Player target = Bukkit.getPlayer(args.get(2));
 			if (target != null) {
 				VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(target);
 				vPlayer.setAbility(slot, ability);
-				if (sender instanceof Player) {
-					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", sender.getName()).replace("%slot%", slotNum).replace("%ability%", ability));
-				} else {
-					target.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_TARGET.toString().replace("%sender%", "Console").replace("%slot%", slotNum).replace("%ability%", ability));
-				}
-				sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS_SENDER.toString().replace("%target%", target.getName()).replace("%slot%", slotNum).replace("%ability%", ability));
+				target.sendMessage(Lang.COMMAND_BIND_SUCCESS_TARGET.toString(true, ability, slotNum, sender.getName()));
+				sender.sendMessage(Lang.COMMAND_BIND_SUCCESS_SENDER.toString(true, ability, slotNum, target.getName()));
 				return;
 			}
 		}
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(error(ChatColor.RED, Lang.INVALID_USER_1.toString()));
+			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_USER_1.toString()));
 			return;
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		vPlayer.setAbility(slot, ability);
-		sender.sendMessage(ChatColor.GREEN + Lang.BIND_SUCCESS.toString().replace("%slot%", slotNum).replace("%ability%", ability));
+		sender.sendMessage(Lang.COMMAND_BIND_SUCCESS.toString(true, ability, slotNum));
 	}
 }
