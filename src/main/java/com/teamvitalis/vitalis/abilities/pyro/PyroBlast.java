@@ -12,9 +12,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.api.MagicAbility;
+import com.teamvitalis.vitalis.configuration.AbilityConfig;
 import com.teamvitalis.vitalis.object.CollisionPriority;
 import com.teamvitalis.vitalis.object.MagicType;
 import com.teamvitalis.vitalis.utils.DamageHandler;
@@ -131,8 +131,8 @@ public class PyroBlast extends MagicAbility implements Collision{
 	private void loadVariables() {
 		this.loc = player.getEyeLocation();
 		this.direction = player.getLocation().getDirection();
-		this.damage = Vitalis.config().get().getDouble("Abilities.Magic.Pyro.PyroBlast.Damage");
-		this.range = Vitalis.config().get().getInt("Abilities.Magic.Pyro.PyroBlast.Range")*4;
-		this.igniteGround = Vitalis.config().get().getBoolean("Abilities.Magic.Pyro.PyroBlast.IgniteGround");
+		this.damage = AbilityConfig.get().getDouble("Abilities.Magic.Pyro.PyroBlast.Damage");
+		this.range = AbilityConfig.get().getInt("Abilities.Magic.Pyro.PyroBlast.Range")*4;
+		this.igniteGround = AbilityConfig.get().getBoolean("Abilities.Magic.Pyro.PyroBlast.IgniteGround");
 	}
 }
