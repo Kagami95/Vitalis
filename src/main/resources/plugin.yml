@@ -2,7 +2,23 @@ name: Vitalis
 main: com.teamvitalis.vitalis.Vitalis
 version: ${project.version}
 author: vitalis
+
 commands:
     vitalis:
         aliases: [vitalis, v]
         description: Basic command for Vitalis
+
+permissions:
+    vitalis.admin:
+        default: OP
+        description: Admin access for Vitalis.
+    vitalis.player:
+        default: true
+        description: Player access for Vitalis.
+        children:
+            vitalis.command.help: true
+            vitalis.command.bind: true
+            vitalis.command.choose: true
+            vitalis.command.class: true
+            vitalis.command.guide: true
+            vitalis.command.who: true
