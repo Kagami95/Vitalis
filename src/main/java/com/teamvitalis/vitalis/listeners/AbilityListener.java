@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.teamvitalis.vitalis.Vitalis;
+import com.teamvitalis.vitalis.abilities.ether.RiftJump;
 import com.teamvitalis.vitalis.abilities.pyro.PyroBlast;
 import com.teamvitalis.vitalis.abilities.pyro.TestAbility;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
@@ -39,6 +40,8 @@ public class AbilityListener implements Listener{
 			new TestAbility(player);
 		} else if (name.equalsIgnoreCase("PyroBlast")) {
 			new PyroBlast(player);
+		} else if (name.equalsIgnoreCase("RiftJump")) {
+			new RiftJump(player);
 		}
 	}
 	

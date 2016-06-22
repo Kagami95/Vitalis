@@ -18,4 +18,6 @@ public interface Collision {
 	public CollisionPriority getPriority();
 	
 	public boolean removeOnCollide();
+	
+	public double getCollisionRadius();
 }

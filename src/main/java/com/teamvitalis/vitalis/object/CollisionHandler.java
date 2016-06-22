@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,7 +30,6 @@ public class CollisionHandler {
 	};
 	
 	public CollisionHandler() {
-		collisionRadius = Vitalis.config().get().getDouble("Physics.Collisions.Radius");
 		Vitalis.plugin().getServer().getScheduler().scheduleSyncRepeatingTask(Vitalis.plugin(), (Runnable) run, 0L, 1L);
 	}
 	
@@ -39,15 +37,19 @@ public class CollisionHandler {
 		List<CoreAbility> activeAbilities = CoreAbility.getActiveAbilities();
 		
 		if (activeAbilities.isEmpty()) {
-			return false;
+			return true;
 		}
 		
-		boolean collision = false;
 		for (CoreAbility ability : activeAbilities) {
+			boolean collision = false;
+			
 			if (!(ability instanceof Collision)) {
 				continue;
 			}
-			Bukkit.broadcastMessage("Checking for collision");
+			
+			Collision collider = (Collision) ability;
+			collisionRadius = collider.getCollisionRadius();
+			
 			List<CoreAbility> colliders = new ArrayList<>();
 			for (CoreAbility ability2 : activeAbilities) {
 				if (ability.getInstanceUUID() == ability2.getInstanceUUID()) {
