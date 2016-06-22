@@ -141,10 +141,4 @@ public class PyroBlast extends MagicAbility implements Collision{
 		// TODO Auto-generated method stub
 		return 2;
 	}
-
-	@Override
-	public boolean canCollideWithUser() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

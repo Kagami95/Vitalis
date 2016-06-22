@@ -83,7 +83,7 @@ public class CollisionHandler {
 						continue;
 					} else if (!(entity instanceof LivingEntity)) {
 						continue;
-					} else if (!collider.canCollideWithUser() && entity.getEntityId() == ability.getPlayer().getEntityId()) {
+					} else if (entity.getEntityId() == ability.getPlayer().getEntityId()) {
 						continue;
 					}
 					newList.add((LivingEntity)entity);
