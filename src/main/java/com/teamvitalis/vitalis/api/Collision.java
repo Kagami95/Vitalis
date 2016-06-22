@@ -20,4 +20,6 @@ public interface Collision {
 	public boolean removeOnCollide();
 	
 	public double getCollisionRadius();
+	
+	public boolean canCollideWithUser();
 }

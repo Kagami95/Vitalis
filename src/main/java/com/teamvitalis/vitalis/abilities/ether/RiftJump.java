@@ -68,7 +68,7 @@ public class RiftJump extends MagicAbility implements Collision{
 			return false;
 		}
 		
-		if (getStartTime() + duration > System.currentTimeMillis()) {
+		if (getStartTime() + duration < System.currentTimeMillis()) {
 			return false;
 		}
 		
@@ -141,5 +141,11 @@ public class RiftJump extends MagicAbility implements Collision{
 	public double getCollisionRadius() {
 		// TODO Auto-generated method stub
 		return 1;
+	}
+
+	@Override
+	public boolean canCollideWithUser() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }
