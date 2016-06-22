@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.api.CoreAbility;
+import com.teamvitalis.vitalis.configuration.DefaultConfig;
 
 public class CollisionHandler {
 	
@@ -31,7 +32,7 @@ public class CollisionHandler {
 	};
 	
 	public CollisionHandler() {
-		collisionRadius = Vitalis.config().get().getDouble("Physics.Collisions.Radius");
+		collisionRadius = DefaultConfig.get().getDouble("Physics.Collisions.Radius");
 		Vitalis.plugin().getServer().getScheduler().scheduleSyncRepeatingTask(Vitalis.plugin(), (Runnable) run, 0L, 1L);
 	}
 	
