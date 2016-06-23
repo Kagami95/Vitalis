@@ -14,7 +14,7 @@ public class AbilityLog {
 	private File logFolder;
 	
 	public AbilityLog(Vitalis plugin, String name) {
-		logFolder = new File(plugin.getDataFolder() + File.separator + "/Logs/");
+		logFolder = new File(plugin.getDataFolder() + File.separator + "/logs/");
 		if (!logFolder.exists()) {
 			try {
 				logFolder.mkdir();
