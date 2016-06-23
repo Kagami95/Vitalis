@@ -1,2 +1,2 @@
 # Vitalis
-Vitalis Plugin for Minecraft 1.9
+Vitalis Plugin for Minecraft 1.10
