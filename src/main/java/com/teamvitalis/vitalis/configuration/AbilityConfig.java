@@ -16,7 +16,12 @@ public class AbilityConfig {
 	public void init() {
 		FileConfiguration c = config.get();
 		
-		c.addDefault("Physics.Collisions.Radius", 2);
+		c.addDefault("Abilities.Magic.Pyro.PyroBlast.Enabled", true);
+		c.addDefault("Abilities.Magic.Pyro.PyroBlast.Damage", 2);
+		c.addDefault("Abilities.Magic.Pyro.PyroBlast.Range", 15);
+		c.addDefault("Abilities.Magic.Pyro.PyroBlast.IgniteGround", true);
+		
+		c.addDefault("Abilities.Magic.Pyro.TestAbility.Enabled", true);
 		
 		config.save();
 	}
