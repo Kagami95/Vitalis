@@ -32,20 +32,34 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	}
 	
 	@Override
-	public String getDisplayName() {
-		return name.toString();
+	public Lang getDisplayName() {
+		return name;
 	}
 
+	public void setDisplayName(Lang l) {
+		name = l;
+	}
+	
 	@Override
 	public ItemStack getDisplayIcon() {
 		return icon;
 	}
 
+	public void setDisplayIcon(ItemStack is) {
+		icon = is;
+	}
+	
 	@Override
 	public ISkillTreeObject[] getParents() {
 		return parents.toArray(new ISkillTreeObject[parents.size()]);
 	}
 
+	public void setParents(ISkillTreeObject... objects) {
+		parents.clear();
+		for (ISkillTreeObject isto : objects)
+			parents.add(isto);
+	}
+	
 	public void addParent(ISkillTreeObject isto) {
 		parents.add(isto);
 	}
@@ -58,16 +72,27 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	public CoreAbility[] getAbilities() {
 		return abilities.toArray(new CoreAbility[abilities.size()]);
 	}
-
+	
+	public void setAbilities(CoreAbility... cas) {
+		abilities.clear();
+		for (CoreAbility ca : cas)
+			abilities.add(ca);
+	}
+	
 	@Override
 	public int getID() {
 		return id;
 	}
 	
+	public void setID(int i) {
+		id = i;
+	}
+	
 	public static SkillTreeObject register(SkillTreeObject sto) {
 		int id = sto.getID();
-		if (INSTANCES.stream().filter(s -> s.getID() == id).count() != 0)
-			return INSTANCES.get(id);
+		SkillTreeObject sto2 = INSTANCES.get(id);
+		if (sto2 != null)
+			return sto2;
 		INSTANCES.add(sto);
 		return sto;
 	}

@@ -38,18 +38,16 @@ public class SkillTreeBuilder {
 		abilities.clear();
 		stcl = null;
 	}
-	
+
 	public SkillTreeObject buildAndClear() {
 		SkillTreeObject skill = build();
 		clear();
 		return skill;
 	}
-	
-	public SkillTreeObject build() {
 
+	public SkillTreeObject build() {
 		SkillTreeBuilder builder = this;
 		SkillTreeObject skill = new SkillTreeObject(plugin) {
-
 			public SkillTreeObject init() {
 				this.name = builder.name;
 				this.icon = builder.icon;
@@ -74,7 +72,7 @@ public class SkillTreeBuilder {
 				if (vp == null)
 					return;
 				Inventory inv = event.getInventory();
-				this.stcl.click(vp, inv);
+				stcl.click(vp, inv);
 			}
 
 		}.init();
