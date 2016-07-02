@@ -3,6 +3,7 @@ package com.teamvitalis.vitalis.commands;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -52,14 +53,16 @@ public class WhoCommand extends ACommand{
 				sender.sendMessage(error("Player is not registered as a VitalisPlayer!"));
 				return;
 			}
-			StringBuilder builder = new StringBuilder("===" + target.getName() + "===");
+			StringBuilder builder = new StringBuilder(ChatColor.DARK_GRAY + "----[ " + ChatColor.DARK_PURPLE + target.getName() + ChatColor.DARK_GRAY + " ]----");
 			if (v instanceof Mancer) {
 				Mancer m = (Mancer) v;
-				builder.append("\n- " + m.getMagicType().getChatColor() + m.getMagicType().getDisplayName().toString());
+				if (m.getMagicType() != null) {
+					builder.append("\n- " + m.getMagicType().getChatColor() + m.getMagicType().getDisplayName().toString());
+				}
 			} else if (v instanceof Mechanist) {
 				builder.append("\n- Mechanist");
 			}
-			builder.append("\n\nAbilities:");
+			builder.append(ChatColor.WHITE + "\nAbilities:");
 			for (int i = 1; i < 10; i++) {
 				String ability = v.getAbility(i);
 				builder.append("\n- " + ability);

@@ -12,6 +12,9 @@ permissions:
     vitalis.admin:
         default: OP
         description: Admin access for Vitalis.
+        children:
+            vitalis.command.remove: true
+            vitalis.command.remove.others: true
     vitalis.player:
         default: true
         description: Player access for Vitalis.
