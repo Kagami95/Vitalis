@@ -19,6 +19,7 @@ public class AbilityLog {
 	
 	public AbilityLog(Vitalis plugin, String name) {
 		date = new Date();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
 		logFolder = new File(plugin.getDataFolder() + File.separator + "/logs/");
 		if (!logFolder.exists()) {
 			try {
@@ -27,6 +28,7 @@ public class AbilityLog {
 				e.printStackTrace();
 			}
 		}
+		log = new File(logFolder, name + "_AbilityLog_" + format.format(date) + ".txt");
 		try {
 			if (log.exists()) {
 				log.delete();
