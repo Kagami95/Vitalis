@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,7 +15,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.api.CoreAbility;
-import com.teamvitalis.vitalis.configuration.DefaultConfig;
 
 public class CollisionHandler {
 	
@@ -32,35 +30,39 @@ public class CollisionHandler {
 	};
 	
 	public CollisionHandler() {
-		collisionRadius = DefaultConfig.get().getDouble("Physics.Collisions.Radius");
 		Vitalis.plugin().getServer().getScheduler().scheduleSyncRepeatingTask(Vitalis.plugin(), (Runnable) run, 0L, 1L);
 	}
 	
 	public static boolean checkForCollision() {
 		List<CoreAbility> activeAbilities = CoreAbility.getActiveAbilities();
+		List<CoreAbility> clone = CoreAbility.getActiveAbilities();
 		
 		if (activeAbilities.isEmpty()) {
 			return false;
 		}
 		
-		boolean collision = false;
 		for (CoreAbility ability : activeAbilities) {
+			clone.remove(ability);
 			if (!(ability instanceof Collision)) {
 				continue;
 			}
-			Bukkit.broadcastMessage("Checking for collision");
+			
+			Collision collider = (Collision) ability;
+			collisionRadius = collider.getCollisionRadius();
+			boolean collision = false;
+			
+			//Abilities collision
 			List<CoreAbility> colliders = new ArrayList<>();
-			for (CoreAbility ability2 : activeAbilities) {
-				if (ability.getInstanceUUID() == ability2.getInstanceUUID()) {
+			colliders.add(ability);
+			for (CoreAbility ability2 : clone) {
+				if (ability.getPlayer() == ability2.getPlayer()) {
 					continue;
 				}
 				if (!(ability2 instanceof Collision)) {
 					continue;
 				}
-				if (ability.getLocation().getWorld() != ability2.getLocation().getWorld()) {
-					continue;
-				}
-				if (ability.getLocation().distanceSquared(ability2.getLocation()) > collisionRadius * collisionRadius) {
+				Collision collider2 = (Collision) ability2;
+				if (ability.getLocation().distanceSquared(ability2.getLocation()) > collisionRadius * collisionRadius && ability2.getLocation().distanceSquared(ability.getLocation()) > collider2.getCollisionRadius() * collider2.getCollisionRadius()) {
 					continue;
 				}
 				colliders.add(ability2);
@@ -71,6 +73,7 @@ public class CollisionHandler {
 				collision = true;
 			}
 		
+			//Ability v Entities collision
 			if (!collision) {
 				List<Entity> entities = ability.getLocation().getWorld().getEntities();
 				List<LivingEntity> newList = new ArrayList<>();
@@ -82,7 +85,7 @@ public class CollisionHandler {
 						continue;
 					} else if (!(entity instanceof LivingEntity)) {
 						continue;
-					} else if (entity.getEntityId() == ability.getPlayer().getEntityId()) {
+					} else if (!collider.collideWithUser() && entity.getEntityId() == ability.getPlayer().getEntityId()) {
 						continue;
 					}
 					newList.add((LivingEntity)entity);
@@ -94,6 +97,7 @@ public class CollisionHandler {
 				}
 			}
 			
+			//Ability v Block collision
 			if (!collision) {
 				Material m = ability.getLocation().getBlock().getType();
 				if (m.isSolid()) {
@@ -120,6 +124,7 @@ public class CollisionHandler {
 					if (collision.removeOnCollide()) {
 						map.get(collision).remove();
 					}
+					levels.remove(collision);
 				}
 			}
 		}
@@ -143,5 +148,9 @@ public class CollisionHandler {
 	
 	public static BukkitRunnable getRunnable() {
 		return run;
+	}
+	
+	public static double getCurrentCollisionRadius() {
+		return collisionRadius;
 	}
 }

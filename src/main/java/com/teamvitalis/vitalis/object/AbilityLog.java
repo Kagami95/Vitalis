@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.teamvitalis.vitalis.Vitalis;
 
@@ -12,8 +15,10 @@ public class AbilityLog {
 
 	private File log;
 	private File logFolder;
+	private Date date;
 	
 	public AbilityLog(Vitalis plugin, String name) {
+		date = new Date();
 		logFolder = new File(plugin.getDataFolder() + File.separator + "/logs/");
 		if (!logFolder.exists()) {
 			try {
@@ -22,7 +27,6 @@ public class AbilityLog {
 				e.printStackTrace();
 			}
 		}
-		log = new File(logFolder + File.separator + name + "_ability-log.txt");
 		try {
 			if (log.exists()) {
 				log.delete();
@@ -52,5 +56,27 @@ public class AbilityLog {
 			e.printStackTrace();
 			return;
 		}
+	}
+	
+	public void skipLine() {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(log, true));
+			PrintWriter print = new PrintWriter(writer);
+			print.println("");
+			print.flush();
+			print.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public String getDateString() {
+		DateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		return format.format(date);
 	}
 }

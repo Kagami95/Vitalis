@@ -24,6 +24,8 @@ public class AbilityLoader {
 		this.plugin = plugin;
 		this.logger = new AbilityLog(Vitalis.plugin(), plugin.getName());
 		logger.modifyLine("Ability log for " + plugin.getName() + " plugin:");
+		logger.modifyLine("Created: " + logger.getDateString());
+		logger.skipLine();
 	}
 	
 	public void loadAbilities(String packageName) {

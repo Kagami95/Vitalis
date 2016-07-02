@@ -46,7 +46,7 @@ public class Mancer extends VitalisPlayer{
 	
 	public void setMagicType(MagicType type) {
 		this.type = type;
-		DBMethods.modifyQuery("UPDATE vitalis_players SET magic = '" + type.getName() + "' WHERE uuid = '" + getUniqueId().toString() + "';");
+		DBMethods.modifyQuery("UPDATE vitalis_players SET magic = '" + (type != null ? type.getName() : null) + "' WHERE uuid = '" + getUniqueId().toString() + "';");
 	}
 	
 	public double getMana() {

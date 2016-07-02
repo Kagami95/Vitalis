@@ -76,6 +76,11 @@ public class LangConfig {
 		config.addDefault("Commands.Reload.HelpMessage", "Reloads Vitalis and Vitalis configs.");
 		config.addDefault("Commands.Reload.Complete", "Vitalis & Vitalis configs reloaded.");
 		
+		config.addDefault("Commands.Remove.HelpMessage", "Allows the removal of magic from a player.");
+		config.addDefault("Commands.Remove.RemoveSuccess", "Successfully removed your magic.");
+		config.addDefault("Commands.Remove.Other.RemoveSuccessSender", "Successfully removed the magic of %target%.");
+		config.addDefault("Commands.Remove.Other.RemoveSuccessTarget", "Your magic has been removed by %sender%.");
+		
 		config.addDefault("Commands.Who.HelpMessage", "Retrieves Vitalis based info on a player.");
 		
 		config.addDefault("Commands.Errors.Unknown", "&cUh oh, something went wrong!");

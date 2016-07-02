@@ -73,6 +73,9 @@ public abstract class VitalisPlayer {
 		ResultSet rs = DBMethods.readQuery("SELECT * FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");
 		try {
 			if (!rs.next()) {
+				if (v == null) {
+					return;
+				}
 				DBMethods.modifyQuery("INSERT INTO vitalis_players (uuid, name, class) VALUES ('" + player.getUniqueId().toString() + "', '" + player.getName() + "', '" + v.getClassType().toString() + "');");
 				return;
 			}

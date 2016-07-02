@@ -77,8 +77,9 @@ public class PyroBlast extends MagicAbility implements Collision{
 		
 		loc.getWorld().spawnParticle(Particle.FLAME, loc, particleAmount, particleOffset, particleOffset, particleOffset, 0.0123);
 		particleAmount += 1;
-		particleOffset += 0.025;
+		particleOffset += 0.1/3;
 		return true;
+		
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class PyroBlast extends MagicAbility implements Collision{
 
 	@Override
 	public void onAbilitiesCollision() {
-		
+		player.sendMessage("Collided!");
 	}
 
 	@Override
@@ -127,12 +128,24 @@ public class PyroBlast extends MagicAbility implements Collision{
 	public boolean removeOnCollide() {
 		return true;
 	}
+	
+	@Override
+	public boolean collideWithUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double getCollisionRadius() {
+		// TODO Auto-generated method stub
+		return 2;
+	}
 
 	private void loadVariables() {
 		this.loc = player.getEyeLocation();
 		this.direction = player.getLocation().getDirection();
 		this.damage = AbilityConfig.get().getDouble("Abilities.Magic.Pyro.PyroBlast.Damage");
-		this.range = AbilityConfig.get().getInt("Abilities.Magic.Pyro.PyroBlast.Range")*4;
+		this.range = AbilityConfig.get().getInt("Abilities.Magic.Pyro.PyroBlast.Range");
 		this.igniteGround = AbilityConfig.get().getBoolean("Abilities.Magic.Pyro.PyroBlast.IgniteGround");
 	}
 }

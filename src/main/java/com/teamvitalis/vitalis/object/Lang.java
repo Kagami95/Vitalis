@@ -37,6 +37,7 @@ public enum Lang {
 	COMMAND_CHOOSE_HELP ("Commands.Choose.HelpMessage"),
 	COMMAND_CLASS_HELP ("Commands.Class.HelpMessage"),
 	COMMAND_RELOAD_HELP ("Commands.Reload.HelpMessage"),
+	COMMAND_REMOVE_HELP ("Commands.Remove.HelpMessage"),
 	COMMAND_WHO_HELP ("Commands.Who.HelpMessage"),
 	
 	//Possible errors in commands
@@ -64,7 +65,11 @@ public enum Lang {
 	COMMAND_CLASS_CHOOSE_SENDER ("Commands.Class.Other.ChooseSuccessSender", new String[] {"%class%", "%target%"}),
 	COMMAND_CLASS_CHOOSE_TARGET ("Commands.Class.Other.ChooseSuccessTarget", new String[] {"%class%", "%sender%"}),
 	
-	COMMAND_RELOAD_COMPLETE ("Commands.Reload.Complete");
+	COMMAND_RELOAD_COMPLETE ("Commands.Reload.Complete"),
+	
+	COMMAND_REMOVE_SUCCESS ("Commands.Remove.RemoveSuccess"),
+	COMMAND_REMOVE_SUCCESS_SENDER ("Commands.Remove.Other.RemoveSuccessSender", new String[] {"%target%"}),
+	COMMAND_REMOVE_SUCCESS_TARGET ("Commands.Remove.Other.RemoveSuccessTarget", new String[] {"%sender%"});
 	
 	private String path;
 	private String[] args;
