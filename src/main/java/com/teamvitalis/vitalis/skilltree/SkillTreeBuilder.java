@@ -73,8 +73,7 @@ public class SkillTreeBuilder {
 				VitalisPlayer vp = VitalisPlayer.fromPlayer((Player) whoClicked);
 				if (vp == null)
 					return;
-				Inventory inv = event.getInventory();
-				stcl.click(vp, inv);
+				stcl.click(vp, event, this);
 			}
 
 		}.init();
