@@ -22,12 +22,14 @@ public class Commands {
 		PluginCommand main = plugin.getCommand("vitalis");
 
 		//Developer note: Please keep these in alphabetical order.
+		//Except help. Don't you dare touch HelpCommand.
 		new HelpCommand();
-		
 		new BindCommand();
 		new ChooseCommand();
 		new ClassCommand();
 		new GuideCommand();
+		new ReloadCommand();
+		new RemoveCommand();
 		new WhoCommand();
 
 		CommandExecutor exe = new CommandExecutor() {
