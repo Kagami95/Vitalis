@@ -3,9 +3,7 @@ package com.teamvitalis.vitalis.skilltree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.teamvitalis.vitalis.Vitalis;
@@ -97,7 +95,8 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 		return sto;
 	}
 	
-	@EventHandler
-	public abstract void clicked(InventoryClickEvent event);
+	public void setClickAction(SkillTreeClickListener stcl) {
+		this.stcl = stcl;
+	}
 	
 }
