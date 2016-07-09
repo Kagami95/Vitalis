@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -57,10 +58,11 @@ public class SkillTreeBuilder {
 				this.abilities.clear();
 				this.abilities.addAll(builder.abilities);
 				this.stcl = builder.stcl;
+				plugin.getServer().getPluginManager().registerEvents(this, plugin);
 				return this;
 			}
 
-			@Override
+			@EventHandler
 			public void clicked(InventoryClickEvent event) {
 				ItemStack item = event.getCurrentItem();
 				if (!item.isSimilar(icon))
@@ -71,8 +73,7 @@ public class SkillTreeBuilder {
 				VitalisPlayer vp = VitalisPlayer.fromPlayer((Player) whoClicked);
 				if (vp == null)
 					return;
-				Inventory inv = event.getInventory();
-				stcl.click(vp, inv);
+				stcl.click(vp, event, this);
 			}
 
 		}.init();
@@ -113,10 +114,6 @@ public class SkillTreeBuilder {
 
 	public List<CoreAbility> getAbilities() {
 		return abilities;
-	}
-
-	public interface SkillTreeClickListener extends Listener {
-		public void click(VitalisPlayer player, Inventory inv);
 	}
 
 }
