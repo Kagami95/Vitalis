@@ -5,13 +5,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-import com.teamvitalis.vitalis.api.Ability;
+import com.teamvitalis.vitalis.api.ICast;
 import com.teamvitalis.vitalis.events.AbilityDamageEntityEvent;
 
 public class DamageHandler {
 
 	@SuppressWarnings("deprecation")
-	public static void damageEntity(LivingEntity entity, Player source, double damage, Ability abil) {
+	public static void damageEntity(LivingEntity entity, Player source, double damage, ICast abil) {
 		double finalDmg = damage;
 		AbilityDamageEntityEvent event = new AbilityDamageEntityEvent(entity, source, damage, abil);
 		if (event.isCancelled()) {

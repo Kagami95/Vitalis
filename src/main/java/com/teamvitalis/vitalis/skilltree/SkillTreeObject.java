@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.api.CoreAbility;
+import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.skilltree.SkillTreeBuilder.SkillTreeClickListener;
 
@@ -19,7 +19,7 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	protected ItemStack icon;
 	protected int id;
 	protected final List<ISkillTreeObject> parents = new ArrayList<>();
-	protected final List<CoreAbility> abilities = new ArrayList<>();
+	protected final List<BaseCast> abilities = new ArrayList<>();
 	protected SkillTreeClickListener stcl;
 	
 	/**
@@ -67,13 +67,13 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	}
 	
 	@Override
-	public CoreAbility[] getAbilities() {
-		return abilities.toArray(new CoreAbility[abilities.size()]);
+	public BaseCast[] getAbilities() {
+		return abilities.toArray(new BaseCast[abilities.size()]);
 	}
 	
-	public void setAbilities(CoreAbility... cas) {
+	public void setAbilities(BaseCast... cas) {
 		abilities.clear();
-		for (CoreAbility ca : cas)
+		for (BaseCast ca : cas)
 			abilities.add(ca);
 	}
 	
@@ -98,5 +98,4 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	public void setClickAction(SkillTreeClickListener stcl) {
 		this.stcl = stcl;
 	}
-	
 }

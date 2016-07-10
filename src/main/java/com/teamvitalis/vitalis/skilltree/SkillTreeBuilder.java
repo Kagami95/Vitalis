@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.api.CoreAbility;
+import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
@@ -24,7 +24,7 @@ public class SkillTreeBuilder {
 	private ItemStack icon;
 	private int id;
 	private final List<ISkillTreeObject> parents = new ArrayList<>();
-	private final List<CoreAbility> abilities = new ArrayList<>();
+	private final List<BaseCast> abilities = new ArrayList<>();
 	private SkillTreeClickListener stcl;
 
 	public SkillTreeBuilder(Vitalis plugin) {
@@ -112,7 +112,7 @@ public class SkillTreeBuilder {
 		return parents;
 	}
 
-	public List<CoreAbility> getAbilities() {
+	public List<BaseCast> getAbilities() {
 		return abilities;
 	}
 

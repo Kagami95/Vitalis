@@ -11,14 +11,13 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.abilities.ether.VoidTrap;
 import com.teamvitalis.vitalis.abilities.pyro.PyroBlast;
-import com.teamvitalis.vitalis.abilities.pyro.TestAbility;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
-public class AbilityListener implements Listener{
+public class CastListener implements Listener{
 	
 	Vitalis plugin;
 	
-	public AbilityListener(Vitalis plugin) {
+	public CastListener(Vitalis plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -38,9 +37,7 @@ public class AbilityListener implements Listener{
 			return;
 		}
 		
-		if (name.equalsIgnoreCase("TestAbility")) {
-			new TestAbility(player);
-		} else if (name.equalsIgnoreCase("PyroBlast")) {
+		if (name.equalsIgnoreCase("PyroBlast")) {
 			new PyroBlast(player);
 		}
 	}

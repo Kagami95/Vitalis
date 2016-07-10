@@ -1,6 +1,6 @@
 package com.teamvitalis.vitalis.api;
 
-public interface AddonAbility {
+public interface AddonCast {
 
 	/**
 	 * Returns the author of the ability

@@ -3,13 +3,13 @@ package com.teamvitalis.vitalis.configuration;
 public class Configs {
 	
 	public Configs() {
-		new AbilityConfig();
+		new CastConfig();
 		new DefaultConfig();
 		new LangConfig();
 	}
 	
 	public static void reload() {
-		AbilityConfig.reload();
+		CastConfig.reload();
 		DefaultConfig.reload();
 		LangConfig.reload();
 	}

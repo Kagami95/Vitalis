@@ -6,7 +6,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.teamvitalis.vitalis.api.Ability;
+import com.teamvitalis.vitalis.api.ICast;
 
 public class AbilityDamageEntityEvent extends Event implements Cancellable{
 	
@@ -15,10 +15,10 @@ public class AbilityDamageEntityEvent extends Event implements Cancellable{
 	private LivingEntity entity;
 	private Player source;
 	private double damage;
-	private Ability ability;
+	private ICast ability;
 	private boolean cancelled;
 
-	public AbilityDamageEntityEvent(LivingEntity entity, Player source, double damage, Ability ability) {
+	public AbilityDamageEntityEvent(LivingEntity entity, Player source, double damage, ICast ability) {
 		this.entity = entity;
 		this.source = source;
 		this.damage = damage;
@@ -37,7 +37,7 @@ public class AbilityDamageEntityEvent extends Event implements Cancellable{
 		return damage;
 	}
 	
-	public Ability getAbility() {
+	public ICast getAbility() {
 		return ability;
 	}
 	

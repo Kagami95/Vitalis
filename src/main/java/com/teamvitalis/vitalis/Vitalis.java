@@ -6,14 +6,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.commands.Commands;
 import com.teamvitalis.vitalis.configuration.Configs;
 import com.teamvitalis.vitalis.database.DBMethods;
 import com.teamvitalis.vitalis.database.Database;
-import com.teamvitalis.vitalis.listeners.AbilityListener;
+import com.teamvitalis.vitalis.listeners.CastListener;
 import com.teamvitalis.vitalis.listeners.GuiListener;
 import com.teamvitalis.vitalis.listeners.PlayerListener;
-import com.teamvitalis.vitalis.object.AbilityLoader;
 import com.teamvitalis.vitalis.object.CollisionHandler;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
@@ -38,10 +38,10 @@ public class Vitalis extends JavaPlugin {
 		
 		new GuiListener(this);
 		new PlayerListener(this);
-		new AbilityListener(this);
+		new CastListener(this);
 	
 		new Commands(this).loadCommands();
-		new AbilityLoader(this).loadAbilities("com.teamvitalis.vitalis.abilities.");
+		BaseCast.loadAll();
 		new CollisionHandler();
 	}
 	

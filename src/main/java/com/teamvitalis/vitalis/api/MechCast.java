@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 
 import com.teamvitalis.vitalis.object.ClassType;
 
-public abstract class MechanistAbility extends CoreAbility{
+public abstract class MechCast extends BaseCast{
 
-	public MechanistAbility(Player player) {
+	public MechCast(Player player) {
 		super(player);
 	}
 	

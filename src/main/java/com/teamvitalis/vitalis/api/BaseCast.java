@@ -9,37 +9,65 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.teamvitalis.vitalis.Vitalis;
+import com.teamvitalis.vitalis.abilities.ether.VoidTrap;
+import com.teamvitalis.vitalis.abilities.pyro.PyroBlast;
+import com.teamvitalis.vitalis.configuration.CastConfig;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
-public abstract class CoreAbility implements Ability{
+public abstract class BaseCast implements ICast{
 
-	private static ConcurrentHashMap<Player, HashMap<UUID, CoreAbility>> playerInstances = new ConcurrentHashMap<>();
+	private static ConcurrentHashMap<Player, HashMap<UUID, BaseCast>> playerInstances = new ConcurrentHashMap<>();
+	private static HashMap<String, BaseCast> nameMap = new HashMap<>();
+	private static HashMap<UUID, BaseCast> uuidMap = new HashMap<>();
+	public static FileConfiguration config = CastConfig.get();
 	
+	private String name;
+	private UUID uuid;
 	private long startTime;
 	public Player player;
 	public VitalisPlayer vPlayer;
 	private boolean started;
-	private UUID uuid;
+	private UUID instance;
 	private BukkitRunnable run = new BukkitRunnable() {
 
 		@Override
 		public void run() {
-			if (!progress() || !playerInstances.get(player).containsKey(uuid)) {
+			if (!progress() || !playerInstances.get(player).containsKey(instance)) {
 				remove();
 				cancel();
 			}
 		}
 	};
 	
-	public CoreAbility() {}
+	/**
+	 * This is a loading constructor, it should never
+	 * be called in any other circumstance. Use getter 
+	 * methods provided.
+	 * @param name Name of Cast
+	 * @param uuid UUID of Cast
+	 */
+	public BaseCast(String name, UUID uuid) {
+		this.name = name;
+		this.uuid = uuid;
+		nameMap.put(name, this);
+		uuidMap.put(uuid, this);
+	}
 	
-	public CoreAbility(Player player) {
+	public BaseCast(Player player) {
 		this.player = player;
 		this.vPlayer = VitalisPlayer.fromPlayer(player);
+		this.uuid = UUID.randomUUID();
+	}
+	
+	public static void loadAll() {
+		//Going to be used to load casts
+		new PyroBlast().load();
+		new VoidTrap().load();
 	}
 	
 	public void start() {
@@ -49,14 +77,13 @@ public abstract class CoreAbility implements Ability{
 		
 		this.started = true;
 		this.startTime = System.currentTimeMillis();
-		this.uuid = UUID.randomUUID();
 		
 		if (!playerInstances.containsKey(player)){
 			playerInstances.put(player, new HashMap<>());
 		}
 		
-		if (!playerInstances.get(player).containsKey(uuid)) {
-			playerInstances.get(player).put(uuid, this);
+		if (!playerInstances.get(player).containsKey(instance)) {
+			playerInstances.get(player).put(instance, this);
 		}
 		
 		run.runTaskTimer(Vitalis.plugin(), 0, getTickRate());
@@ -71,10 +98,19 @@ public abstract class CoreAbility implements Ability{
 	
 	public static void removeAll() {
 		for (Player player : playerInstances.keySet()) {
-			for (CoreAbility ability : playerInstances.get(player).values()) {
+			for (BaseCast ability : playerInstances.get(player).values()) {
 				ability.remove();
 			}
 		}
+	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	public UUID getUniqueId() {
+		return uuid;
 	}
 	
 	public long getStartTime() {
@@ -101,18 +137,32 @@ public abstract class CoreAbility implements Ability{
 		return playerInstances.keySet();
 	}
 	
-	public static List<CoreAbility> getActiveAbilities() {
-		List<CoreAbility> abils = new ArrayList<>();
+	public static List<BaseCast> getActiveCasts() {
+		List<BaseCast> abils = new ArrayList<>();
 		for (Player player : playerInstances.keySet()) {
-			for (CoreAbility ability : playerInstances.get(player).values()) {
+			for (BaseCast ability : playerInstances.get(player).values()) {
 				abils.add(ability);
 			}
 		}
 		return abils;
 	}
 	
-	public static Collection<CoreAbility> getAbilitiesFromPlayer(Player player) {
+	public static Collection<BaseCast> getCastsFromPlayer(Player player) {
 		return playerInstances.containsKey(player) ? playerInstances.get(player).values() : null;
+	}
+	
+	public static BaseCast getByName(String name) {
+		return nameMap.containsKey(name) ? nameMap.get(name) : null;
+	}
+	
+	public static BaseCast getByUUID(UUID uuid) {
+		return uuidMap.containsKey(uuid) ? nameMap.get(uuid) : null;
+	}
+	
+	public static List<BaseCast> getAllCasts() {
+		List<BaseCast> list = new ArrayList<>();
+		list.addAll(nameMap.values());
+		return list;
 	}
 
 	@Override
