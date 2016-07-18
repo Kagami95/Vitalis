@@ -38,7 +38,6 @@ public class VoidTrap extends MagicCast {
 	private double radius;
 	private Map<Block, MaterialData> blocks = new HashMap<Block, MaterialData>();
 	
-	
 	public static long chargeTime = 6000L;
 	public static long openTime = 2000L;
 	public static long duration = 9000L;
@@ -47,12 +46,17 @@ public class VoidTrap extends MagicCast {
 	public static double suctionPower = 1;
 	public static int suctionAmount = 5;
 	private static Random rand = new Random();
+	private static UUID uuid;
+	
+	static {
+		uuid = UUID.fromString("56486fb9-70ab-47e1-9e69-b7e99375e154");
+	}
 	
 	public static Map<Block, Player> portalBlocks = new ConcurrentHashMap<Block, Player>();
 	public static Map<Player, Long> trappedPlayers = new ConcurrentHashMap<Player, Long>();
 	
 	public VoidTrap() {
-		super("VoidTrap", UUID.fromString("56486fb9-70ab-47e1-9e69-b7e99375e154"));
+		super("VoidTrap", uuid);
 	}
 	
 	public VoidTrap(Player player) {
@@ -302,4 +306,7 @@ public class VoidTrap extends MagicCast {
 		
 	}
 
+	public static UUID getUID() {
+		return uuid;
+	}
 }

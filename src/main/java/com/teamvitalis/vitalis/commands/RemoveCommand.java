@@ -55,7 +55,7 @@ public class RemoveCommand extends ACommand{
 				sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_TARGET.toString()));
 				return;
 			}
-			if (sender.hasPermission("vitalis.command.remove.others")) {
+			if (!sender.hasPermission("vitalis.command.remove.others")) {
 				sender.sendMessage(error(Lang.NO_PERMISSION.toString()));
 				return;
 			}

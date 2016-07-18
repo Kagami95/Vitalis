@@ -54,7 +54,7 @@ public abstract class BaseCast implements ICast{
 	public BaseCast(String name, UUID uuid) {
 		this.name = name;
 		this.uuid = uuid;
-		nameMap.put(name, this);
+		nameMap.put(name.toLowerCase(), this);
 		uuidMap.put(uuid, this);
 	}
 	
@@ -152,7 +152,7 @@ public abstract class BaseCast implements ICast{
 	}
 	
 	public static BaseCast getByName(String name) {
-		return nameMap.containsKey(name) ? nameMap.get(name) : null;
+		return nameMap.containsKey(name.toLowerCase()) ? nameMap.get(name.toLowerCase()) : null;
 	}
 	
 	public static BaseCast getByUUID(UUID uuid) {

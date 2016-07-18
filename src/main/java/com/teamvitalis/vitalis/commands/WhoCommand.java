@@ -7,6 +7,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.api.MagicCast;
+import com.teamvitalis.vitalis.api.MechCast;
 import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.object.Mancer;
 import com.teamvitalis.vitalis.object.Mechanist;
@@ -35,9 +38,9 @@ public class WhoCommand extends ACommand{
 				String message = "- " + player.getName();
 				if (v instanceof Mancer) {
 					Mancer m = (Mancer) v;
-					message = message + m.getMagicType().getChatColor() + "(Mancer)";
+					message = message + m.getMagicType().getChatColor() + " (Mancer)";
 				} else if (v instanceof Mechanist) {
-					message = message + "(Mechanist)";
+					message = message + ChatColor.GOLD + " (Mechanist)";
 				}
 				sender.sendMessage(message);
 			}
@@ -63,9 +66,19 @@ public class WhoCommand extends ACommand{
 				builder.append("\n- Mechanist");
 			}
 			builder.append(ChatColor.WHITE + "\nAbilities:");
-			for (int i = 1; i < 10; i++) {
+			for (int i = 0; i < 9; i++) {
 				String ability = v.getAbility(i);
-				builder.append("\n- " + ability);
+				ChatColor color = ChatColor.WHITE;
+				
+				if (ability != null) {
+					BaseCast cast = BaseCast.getByName(ability);
+					if (cast instanceof MagicCast) {
+						color = ((MagicCast)cast).getMagicType().getChatColor();
+					} else if (cast instanceof MechCast) {
+						color = ChatColor.GOLD;
+					}
+				}
+				builder.append(ChatColor.RESET + "\n- " + color + ability);
 			}
 			sender.sendMessage(builder.toString());
 		}

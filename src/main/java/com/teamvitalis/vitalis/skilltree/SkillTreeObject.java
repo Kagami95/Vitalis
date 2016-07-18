@@ -6,10 +6,8 @@ import java.util.List;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.teamvitalis.vitalis.Vitalis;
 import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.object.Lang;
-import com.teamvitalis.vitalis.skilltree.SkillTreeBuilder.SkillTreeClickListener;
 
 public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 
@@ -20,14 +18,6 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 	protected int id;
 	protected final List<ISkillTreeObject> parents = new ArrayList<>();
 	protected final List<BaseCast> abilities = new ArrayList<>();
-	protected SkillTreeClickListener stcl;
-	
-	/**
-	 * <h1><b>DO NOT CALL THIS CONSTRUCTOR MANUALLY!!</b></h1>
-	 */
-	public SkillTreeObject(Vitalis plugin) {
-		plugin.getServer().getPluginManager().registerEvents(this, plugin);
-	}
 	
 	@Override
 	public Lang getDisplayName() {
@@ -93,9 +83,5 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 			return sto2;
 		INSTANCES.add(sto);
 		return sto;
-	}
-	
-	public void setClickAction(SkillTreeClickListener stcl) {
-		this.stcl = stcl;
 	}
 }

@@ -29,9 +29,14 @@ public class PyroBlast extends MagicCast implements Collision{
 	private static double damage;
 	private static int range;
 	private static boolean igniteGround;
+	private static UUID uuid;
+	
+	static {
+		uuid = UUID.fromString("6868ff61-7611-4f50-9c74-5d98c43dcdf9");
+	}
 	
 	public PyroBlast() {
-		super("PyroBlast", UUID.fromString("6868ff61-7611-4f50-9c74-5d98c43dcdf9"));
+		super("PyroBlast", uuid);
 	}
 
 	public PyroBlast(Player player) {
@@ -142,5 +147,9 @@ public class PyroBlast extends MagicCast implements Collision{
 		damage = config.getDouble("Casts.Magic.Pyro.PyroBlast.Damage");
 		range = config.getInt("Casts.Magic.Pyro.PyroBlast.Range");
 		igniteGround = config.getBoolean("Casts.Magic.Pyro.PyroBlast.IgniteGround");
+	}
+	
+	public static UUID getUID() {
+		return uuid;
 	}
 }
