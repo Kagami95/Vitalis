@@ -1,10 +1,11 @@
-package com.teamvitalis.vitalis.abilities.ether;
+package com.teamvitalis.vitalis.casts.ether;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
@@ -23,12 +24,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.api.MagicAbility;
+import com.teamvitalis.vitalis.api.MagicCast;
 import com.teamvitalis.vitalis.object.MagicType;
 import com.teamvitalis.vitalis.utils.BlockUtils;
 import com.teamvitalis.vitalis.utils.ParticleEffect;
 
-public class VoidTrap extends MagicAbility {
+public class VoidTrap extends MagicCast {
 	
 	private Location loc;
 	private enum VoidTrapState {CHARGING, OPENING, OPEN, CLOSING, IDLE};
@@ -36,7 +37,6 @@ public class VoidTrap extends MagicAbility {
 	private long startTime;
 	private double radius;
 	private Map<Block, MaterialData> blocks = new HashMap<Block, MaterialData>();
-	
 	
 	public static long chargeTime = 6000L;
 	public static long openTime = 2000L;
@@ -46,9 +46,18 @@ public class VoidTrap extends MagicAbility {
 	public static double suctionPower = 1;
 	public static int suctionAmount = 5;
 	private static Random rand = new Random();
+	private static UUID uuid;
+	
+	static {
+		uuid = UUID.fromString("56486fb9-70ab-47e1-9e69-b7e99375e154");
+	}
 	
 	public static Map<Block, Player> portalBlocks = new ConcurrentHashMap<Block, Player>();
 	public static Map<Player, Long> trappedPlayers = new ConcurrentHashMap<Player, Long>();
+	
+	public VoidTrap() {
+		super("VoidTrap", uuid);
+	}
 	
 	public VoidTrap(Player player) {
 		super(player);
@@ -291,5 +300,13 @@ public class VoidTrap extends MagicAbility {
 	public List<Location> getLocations() {
 		return null;
 	}
+	
+	@Override
+	public boolean load() {
+		return super.isEnabled();
+	}
 
+	public static UUID getUID() {
+		return uuid;
+	}
 }

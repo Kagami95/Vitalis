@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.teamvitalis.vitalis.object.AbilityInfo;
+import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
@@ -32,9 +32,8 @@ public class BindCommand extends ACommand{
 		Player player = (Player) sender;
 		int slot = -1;
 		String slotNum = String.valueOf(slot);
-		String ability = args.get(0);
-		AbilityInfo info = AbilityInfo.fromName(ability);
-		if (info == null) {
+		BaseCast cast = BaseCast.getByName(args.get(0));
+		if (cast == null) {
 			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_ABILITY.toString()));
 			return;
 		}
@@ -51,9 +50,9 @@ public class BindCommand extends ACommand{
 			Player target = Bukkit.getPlayer(args.get(2));
 			if (target != null) {
 				VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(target);
-				vPlayer.setAbility(slot, ability);
-				target.sendMessage(Lang.COMMAND_BIND_SUCCESS_TARGET.toString(true, ability, slotNum, sender.getName()));
-				sender.sendMessage(Lang.COMMAND_BIND_SUCCESS_SENDER.toString(true, ability, slotNum, target.getName()));
+				vPlayer.setAbility(slot, cast.getName());
+				target.sendMessage(Lang.COMMAND_BIND_SUCCESS_TARGET.toString(true, cast.getName(), slotNum, sender.getName()));
+				sender.sendMessage(Lang.COMMAND_BIND_SUCCESS_SENDER.toString(true, cast.getName(), slotNum, target.getName()));
 				return;
 			}
 		}
@@ -62,7 +61,7 @@ public class BindCommand extends ACommand{
 			return;
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
-		vPlayer.setAbility(slot, ability);
-		sender.sendMessage(Lang.COMMAND_BIND_SUCCESS.toString(true, ability, slotNum));
+		vPlayer.setAbility(slot, cast.getName());
+		sender.sendMessage(Lang.COMMAND_BIND_SUCCESS.toString(true, cast.getName(), slotNum));
 	}
 }

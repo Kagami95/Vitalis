@@ -6,29 +6,29 @@ import org.bukkit.Location;
 
 import com.teamvitalis.vitalis.object.ClassType;
 
-public interface Ability {
+public interface ICast {
 	
 	/**
-	 * Get the name of the ability
-	 * @return Name of ability
+	 * Get the name of the cast
+	 * @return Name of cast
 	 */
 	public String getName();
 	
 	/**
-	 * Get the description of how to use the ability
-	 * @return ability description
+	 * Get the description of how to use the cast
+	 * @return cast description
 	 */
 	public String getDescription();
 	
 	/**
-	 * Get the {@link ClassType} of the ability
-	 * @return {@link ClassType} of the ability
+	 * Get the {@link ClassType} of the cast
+	 * @return {@link ClassType} of the cast
 	 */
 	public ClassType getClassType();
 	
 	/**
-	 * Gets a list of Location for the ability. The main location should be located at index of 0.
-	 * @return locations of ability
+	 * Gets a list of Location for the cast. The main location should be located at index of 0.
+	 * @return locations of cast
 	 */
 	public List<Location> getLocations();
 	
@@ -39,12 +39,17 @@ public interface Ability {
 	public boolean isEnabled();
 	
 	/**
-	 * Update ability
+	 * Loads cast
+	 */
+	public boolean load();
+	
+	/**
+	 * Update cast
 	 */
 	public boolean progress();
 	
 	/**
-	 * Remove ability
+	 * Remove cast
 	 */
 	public void remove();
 	

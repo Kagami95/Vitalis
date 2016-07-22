@@ -10,8 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.teamvitalis.vitalis.api.CoreAbility;
-import com.teamvitalis.vitalis.api.MagicAbility;
+import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.api.MagicCast;
 import com.teamvitalis.vitalis.database.DBMethods;
 
 public class Mancer extends VitalisPlayer{
@@ -86,11 +86,11 @@ public class Mancer extends VitalisPlayer{
 	}
 
 	@Override
-	public boolean canUse(String ability) {
-		if (!(AbilityInfo.fromName(ability).getAbility() instanceof CoreAbility)) {
+	public boolean canUse(String cast) {
+		if (!(BaseCast.getByName(cast) instanceof BaseCast)) {
 			return false;
 		}
-		MagicAbility ability2 = (MagicAbility) AbilityInfo.fromName(ability).getAbility();
+		MagicCast ability2 = (MagicCast) BaseCast.getByName(cast);
 		if (!(VitalisPlayer.fromPlayer(Bukkit.getPlayer(getUniqueId())) instanceof Mancer)) {
 			return false;
 		}

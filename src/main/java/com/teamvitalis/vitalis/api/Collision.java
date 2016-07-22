@@ -9,7 +9,7 @@ import com.teamvitalis.vitalis.object.CollisionPriority;
 
 public interface Collision {
 
-	public void onAbilitiesCollision();
+	public void onCastsCollision();
 	
 	public void onBlockCollision(Block b);
 	

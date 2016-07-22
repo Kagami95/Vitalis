@@ -1,7 +1,8 @@
-package com.teamvitalis.vitalis.abilities.pyro;
+package com.teamvitalis.vitalis.casts.pyro;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,45 +14,46 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.teamvitalis.vitalis.api.Collision;
-import com.teamvitalis.vitalis.api.MagicAbility;
-import com.teamvitalis.vitalis.configuration.AbilityConfig;
+import com.teamvitalis.vitalis.api.MagicCast;
 import com.teamvitalis.vitalis.object.CollisionPriority;
 import com.teamvitalis.vitalis.object.MagicType;
 import com.teamvitalis.vitalis.utils.DamageHandler;
 
-public class PyroBlast extends MagicAbility implements Collision{
+public class PyroBlast extends MagicCast implements Collision{
 	
 	private double particleOffset = 0.3;
 	private int particleAmount = 4;
 	private Location loc;
 	private Vector direction;
-	private double damage;
-	private int range, currRange = 0;
-	private boolean igniteGround;
+	private int currRange = 0;
+	private static double damage;
+	private static int range;
+	private static boolean igniteGround;
+	private static UUID uuid;
+	
+	static {
+		uuid = UUID.fromString("6868ff61-7611-4f50-9c74-5d98c43dcdf9");
+	}
+	
+	public PyroBlast() {
+		super("PyroBlast", uuid);
+	}
 
 	public PyroBlast(Player player) {
 		super(player);
-		loadVariables();
+		loc = player.getEyeLocation();
+		direction = player.getLocation().getDirection();
 		start();
 	}
 
 	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "PyroBlast";
-	}
-
-	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Click to throw a blast of fire in the clicked direction. As the blast goes, it will slowly increase in size.";
 	}
 
 	@Override
 	public List<Location> getLocations() {
-		List<Location> locs = new ArrayList<>();
-		locs.add(loc);
-		return locs;
+		return Arrays.asList(loc);
 	}
 
 	@Override
@@ -84,12 +86,11 @@ public class PyroBlast extends MagicAbility implements Collision{
 
 	@Override
 	public MagicType getMagicType() {
-		// TODO Auto-generated method stub
 		return MagicType.PYRO;
 	}
 
 	@Override
-	public void onAbilitiesCollision() {
+	public void onCastsCollision() {
 		player.sendMessage("Collided!");
 	}
 
@@ -141,11 +142,18 @@ public class PyroBlast extends MagicAbility implements Collision{
 		return 2;
 	}
 
-	private void loadVariables() {
-		this.loc = player.getEyeLocation();
-		this.direction = player.getLocation().getDirection();
-		this.damage = AbilityConfig.get().getDouble("Abilities.Magic.Pyro.PyroBlast.Damage");
-		this.range = AbilityConfig.get().getInt("Abilities.Magic.Pyro.PyroBlast.Range");
-		this.igniteGround = AbilityConfig.get().getBoolean("Abilities.Magic.Pyro.PyroBlast.IgniteGround");
+	@Override
+	public boolean load() {
+		if (isEnabled()) {
+			damage = config.getDouble("Casts.Magic.Pyro.PyroBlast.Damage");
+			range = config.getInt("Casts.Magic.Pyro.PyroBlast.Range");
+			igniteGround = config.getBoolean("Casts.Magic.Pyro.PyroBlast.IgniteGround");
+			return true;
+		}
+		return false;
+	}
+	
+	public static UUID getUID() {
+		return uuid;
 	}
 }

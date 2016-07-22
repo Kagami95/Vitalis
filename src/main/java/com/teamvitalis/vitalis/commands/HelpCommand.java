@@ -31,7 +31,6 @@ public class HelpCommand extends ACommand{
 			return;
 		}
 
-
 		List<String> order = new ArrayList<String>();
 		HashMap<String, TextComponent> components = new HashMap<String, TextComponent>();
 		for (ACommand command : getCommands().values()) {

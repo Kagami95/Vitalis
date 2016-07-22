@@ -11,13 +11,13 @@ import java.util.Date;
 
 import com.teamvitalis.vitalis.Vitalis;
 
-public class AbilityLog {
+public class CastLog {
 
 	private File log;
 	private File logFolder;
 	private Date date;
 	
-	public AbilityLog(Vitalis plugin, String name) {
+	public CastLog(Vitalis plugin, String name) {
 		date = new Date();
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
 		logFolder = new File(plugin.getDataFolder() + File.separator + "/logs/");
@@ -28,7 +28,7 @@ public class AbilityLog {
 				e.printStackTrace();
 			}
 		}
-		log = new File(logFolder, name + "_AbilityLog_" + format.format(date) + ".txt");
+		log = new File(logFolder, name + "_CastLog_" + format.format(date) + ".txt");
 		try {
 			if (log.exists()) {
 				log.delete();
