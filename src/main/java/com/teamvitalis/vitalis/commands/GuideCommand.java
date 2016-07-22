@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import com.teamvitalis.vitalis.api.AddonCast;
 import com.teamvitalis.vitalis.api.BaseCast;
 import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.object.Lang;
@@ -38,11 +37,11 @@ public class GuideCommand extends ACommand{
 		for (BaseCast cast : BaseCast.getAllCasts()) {
 			if (cast.getName().equalsIgnoreCase(args.get(0))) {
 				sender.sendMessage(ChatColor.GRAY + cast.getName() + " -");
-				if (cast instanceof AddonCast) {
-					AddonCast addon = (AddonCast) cast;
-					sender.sendMessage(ChatColor.GRAY + "Author: " + ChatColor.YELLOW + addon.getAuthor());
-					sender.sendMessage(ChatColor.GRAY + "Version: " + ChatColor.YELLOW + addon.getVersion());
-				}
+				//if (cast instanceof AddonCast) {
+				//	AddonCast addon = (AddonCast) cast;
+				//	sender.sendMessage(ChatColor.GRAY + "Author: " + ChatColor.YELLOW + addon.getAuthor());
+				//	sender.sendMessage(ChatColor.GRAY + "Version: " + ChatColor.YELLOW + addon.getVersion());
+				//}
 				sender.sendMessage(ChatColor.YELLOW + cast.getDescription());
 				if (cast instanceof Collision) {
 					sender.sendMessage(ChatColor.GRAY + "This ability will collide with entities, blocks, and other abilities!");

@@ -1,4 +1,4 @@
-package com.teamvitalis.vitalis.abilities.pyro;
+package com.teamvitalis.vitalis.casts.pyro;
 
 import java.util.Arrays;
 import java.util.List;
@@ -143,10 +143,14 @@ public class PyroBlast extends MagicCast implements Collision{
 	}
 
 	@Override
-	public void load() {
-		damage = config.getDouble("Casts.Magic.Pyro.PyroBlast.Damage");
-		range = config.getInt("Casts.Magic.Pyro.PyroBlast.Range");
-		igniteGround = config.getBoolean("Casts.Magic.Pyro.PyroBlast.IgniteGround");
+	public boolean load() {
+		if (isEnabled()) {
+			damage = config.getDouble("Casts.Magic.Pyro.PyroBlast.Damage");
+			range = config.getInt("Casts.Magic.Pyro.PyroBlast.Range");
+			igniteGround = config.getBoolean("Casts.Magic.Pyro.PyroBlast.IgniteGround");
+			return true;
+		}
+		return false;
 	}
 	
 	public static UUID getUID() {

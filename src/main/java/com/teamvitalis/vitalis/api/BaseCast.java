@@ -14,9 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.abilities.ether.VoidTrap;
-import com.teamvitalis.vitalis.abilities.pyro.PyroBlast;
+import com.teamvitalis.vitalis.casts.ether.VoidTrap;
+import com.teamvitalis.vitalis.casts.pyro.PyroBlast;
 import com.teamvitalis.vitalis.configuration.CastConfig;
+import com.teamvitalis.vitalis.object.CastLog;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public abstract class BaseCast implements ICast{
@@ -64,14 +65,26 @@ public abstract class BaseCast implements ICast{
 		this.uuid = UUID.randomUUID();
 	}
 	
-	public static void loadAll() {
-		//Going to be used to load casts
-		new PyroBlast().load();
-		new VoidTrap().load();
+	public static void loadAll(){
+		CastLog log = new CastLog(Vitalis.plugin(), "Vitalis");
+		log.modifyLine("Vitalis CastLog");
+		log.modifyLine("Created: " + log.getDateString());
+		log.skipLine();
+		if (new PyroBlast().load()) {
+			log.modifyLine("PyroBlast cast loaded");
+		}
+		
+		if (new VoidTrap().load()) {
+			log.modifyLine("VoidTrap cast loaded!");
+		}
 	}
 	
 	public void start() {
 		if (player == null) {
+			return;
+		}
+		
+		if (!canUse(vPlayer)) {
 			return;
 		}
 		
@@ -182,4 +195,6 @@ public abstract class BaseCast implements ICast{
 	public Location getLocation() {
 		return getLocations().get(0);
 	}
+	
+	public abstract boolean canUse(VitalisPlayer player); 
 }

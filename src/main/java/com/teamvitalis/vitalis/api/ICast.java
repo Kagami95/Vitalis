@@ -41,7 +41,7 @@ public interface ICast {
 	/**
 	 * Loads cast
 	 */
-	public void load();
+	public boolean load();
 	
 	/**
 	 * Update cast

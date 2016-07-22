@@ -1,4 +1,4 @@
-package com.teamvitalis.vitalis.abilities.ether;
+package com.teamvitalis.vitalis.casts.ether;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -300,10 +300,10 @@ public class VoidTrap extends MagicCast {
 	public List<Location> getLocations() {
 		return null;
 	}
-
+	
 	@Override
-	public void load() {
-		
+	public boolean load() {
+		return super.isEnabled();
 	}
 
 	public static UUID getUID() {

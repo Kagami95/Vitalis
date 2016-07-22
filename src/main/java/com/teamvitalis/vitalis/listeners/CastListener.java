@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.abilities.ether.VoidTrap;
-import com.teamvitalis.vitalis.abilities.pyro.PyroBlast;
+import com.teamvitalis.vitalis.casts.ether.VoidTrap;
+import com.teamvitalis.vitalis.casts.pyro.PyroBlast;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
 public class CastListener implements Listener{
