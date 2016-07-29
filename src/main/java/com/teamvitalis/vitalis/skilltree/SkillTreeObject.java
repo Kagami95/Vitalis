@@ -3,18 +3,24 @@ package com.teamvitalis.vitalis.skilltree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.event.Listener;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.inventory.ItemStack;
 
 import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.object.ClassType;
 import com.teamvitalis.vitalis.object.Lang;
+import com.teamvitalis.vitalis.object.MagicType;
+import com.teamvitalis.vitalis.object.Mancer;
+import com.teamvitalis.vitalis.object.VitalisPlayer;
 
-public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
+public abstract class SkillTreeObject implements ISkillTreeObject {
 
 	private static final List<SkillTreeObject> INSTANCES = new ArrayList<>();
 
 	protected Lang name;
 	protected ItemStack icon;
+	protected ClassType classType;
+	protected MagicType magicType;
 	protected int id;
 	protected final List<ISkillTreeObject> parents = new ArrayList<>();
 	protected final List<BaseCast> abilities = new ArrayList<>();
@@ -35,6 +41,24 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 
 	public void setDisplayIcon(ItemStack is) {
 		icon = is;
+	}
+	
+	@Override
+	public ClassType getClassType() {
+		return classType;
+	}
+	
+	public void setClassType(ClassType classType) {
+		this.classType = classType;
+	}
+	
+	@Override
+	public MagicType getMagicType() {
+		return magicType;
+	}
+	
+	public void setMagicType(MagicType magicType) {
+		this.magicType = magicType;
 	}
 	
 	@Override
@@ -83,5 +107,31 @@ public abstract class SkillTreeObject implements ISkillTreeObject, Listener {
 			return sto2;
 		INSTANCES.add(sto);
 		return sto;
+	}
+	
+	public static List<SkillTreeObject> getRegisteredSkillTreeObjects() {
+		return INSTANCES;
+	}
+	
+	public static List<SkillTreeObject> getAccessibleSkillTreeObjects(VitalisPlayer vplayer) {
+		List<SkillTreeObject> STOs = new ArrayList<>();
+        for (SkillTreeObject sto : getRegisteredSkillTreeObjects()) {
+        	//TODO: Upgrade this to a more efficient system. Something like:
+        	//		vplayer.getClassType().getSkillTreeObjects();
+        	if (!vplayer.getClassType().equals(sto.getClassType())) continue;
+        	if (vplayer instanceof Mancer) {
+        		if (((Mancer) vplayer).getMagicType().equals(sto.getMagicType())) continue;
+        	}
+        	STOs.add(sto);
+        }
+        return STOs;
+	}
+	
+	public boolean hasRequirements(VitalisPlayer vplayer) {
+		if (getParents() == null) return true;
+		for (ISkillTreeObject isto : getParents()) {
+			if (!ArrayUtils.contains(vplayer.getUnlockedSkillTreeObjects(), isto.getID())) return false;
+		}
+		return true;
 	}
 }

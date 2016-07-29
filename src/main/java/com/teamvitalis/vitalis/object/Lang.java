@@ -69,7 +69,13 @@ public enum Lang {
 	
 	COMMAND_REMOVE_SUCCESS ("Commands.Remove.RemoveSuccess"),
 	COMMAND_REMOVE_SUCCESS_SENDER ("Commands.Remove.Other.RemoveSuccessSender", new String[] {"%target%"}),
-	COMMAND_REMOVE_SUCCESS_TARGET ("Commands.Remove.Other.RemoveSuccessTarget", new String[] {"%sender%"});
+	COMMAND_REMOVE_SUCCESS_TARGET ("Commands.Remove.Other.RemoveSuccessTarget", new String[] {"%sender%"}),
+	
+	//Gui
+	GUI_SKILL_TREE ("Gui.SkillTree.Title"),
+	GUI_SKILL_TREE_ALREADY_UNLOCKED ("Gui.SkillTree.AlreadyUnlocked"),
+	GUI_SKILL_TREE_NEW_UNLOCK ("Gui.SkillTree.NewUnlock", new String[] {"%skill"}),
+	GUI_SKILL_TREE_LOCKED ("Gui.SkillTree.Locked");
 	
 	private String path;
 	private String[] args;

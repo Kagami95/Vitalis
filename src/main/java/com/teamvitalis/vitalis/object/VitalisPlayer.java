@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.entity.Player;
 
 import com.teamvitalis.vitalis.database.DBMethods;
@@ -20,16 +21,18 @@ public abstract class VitalisPlayer {
 	private long lastJoin;
 	private ClassType classType;
 	private HashMap<Integer, String> abilities;
+	private Integer[] unlockedSkillTreeObjects;
 	
-	public VitalisPlayer(Player player, ClassType classType, HashMap<Integer, String> abilities) {
-		this(player.getUniqueId(), player.getName(), classType, abilities);
+	public VitalisPlayer(Player player, ClassType classType, HashMap<Integer, String> abilities, Integer[] unlockedSkillTreeObjects) {
+		this(player.getUniqueId(), player.getName(), classType, abilities, unlockedSkillTreeObjects);
 	}
 	
-	public VitalisPlayer(UUID uuid, String name, ClassType classType, HashMap<Integer, String> abilities) {
+	public VitalisPlayer(UUID uuid, String name, ClassType classType, HashMap<Integer, String> abilities, Integer[] unlockedSkillTreeObjects) {
 		this.setUniqueId(uuid);
 		this.setName(name);
 		this.setClassType(classType);
 		this.setAbilities(abilities);
+		this.setUnlockedSkillTreeObjects(unlockedSkillTreeObjects);
 		PLAYERS.put(this.getUniqueId(), this);
 	}
 	
@@ -55,10 +58,17 @@ public abstract class VitalisPlayer {
 					}
 					abilities.put(i, ability);
 				}
+				Integer[] unlockedSkillTreeObjects = new Integer[]{};
+				String unlockedArray = rs.getString("unlocked_skills");
+				if (unlockedArray != null && !unlockedArray.isEmpty()) {
+					for (String s : unlockedArray.split(",[ ]*")) {
+						ArrayUtils.add(unlockedSkillTreeObjects, Integer.valueOf(s));
+					}
+				}
 				if (type == ClassType.MANCER) {
-					new Mancer(player, abilities);
+					new Mancer(player, abilities, unlockedSkillTreeObjects);
 				} else if (type == ClassType.MECHANIST) {
-					new Mechanist(player, abilities);
+					new Mechanist(player, abilities, unlockedSkillTreeObjects);
 				}
 				return true;
 			}
@@ -88,6 +98,7 @@ public abstract class VitalisPlayer {
 			String ability = v.getAbility(i);
 			DBMethods.modifyQuery("UPDATE vitalis_players SET slot" + i + " = '" + ability + "' WHERE uuid = '" + player.getUniqueId().toString() + "';");
 		}
+		DBMethods.modifyQuery("UPDATE vitalis_players SET unlocked_skills = '" + ArrayUtils.toString(v.getUnlockedSkillTreeObjects()).replaceAll("[\\[\\] ]", "") + "' WHERE uuid = '" + player.getUniqueId().toString() + "';");
 	}
 	
 	/**
@@ -213,6 +224,22 @@ public abstract class VitalisPlayer {
 	 */
 	public void setAbility(int slot, String ability) {
 		getAbilities().put(slot, ability);
+	}
+	
+	/**
+	 * Gets the {@link SkillTreeObject}s that the player has unlocked
+	 * @return Integer array of the {@link SkillTreeObject} IDs
+	 */
+	public Integer[] getUnlockedSkillTreeObjects() {
+		return unlockedSkillTreeObjects;
+	}
+	
+	/**
+	 * Sets the {@link SkillTreeObject}s that the player has unlocked
+	 * @param unlockedSkillTreeObjects Integer array of {@link SkillTreeObject} IDs
+	 */
+	public void setUnlockedSkillTreeObjects(Integer[] unlockedSkillTreeObjects) {
+		this.unlockedSkillTreeObjects = unlockedSkillTreeObjects;
 	}
 	
 	public abstract boolean canUse(String ability);
