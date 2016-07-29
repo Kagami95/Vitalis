@@ -96,6 +96,11 @@ public class LangConfig {
 		config.addDefault("Commands.Errors.PlayerOnlyCommand", "&cCommand only usable by a player!");
 		config.addDefault("Commands.Errors.MancerOnlyCommand", "&cCommand only usable by a mancer!");
 		
+		config.addDefault("Gui.SkillTree.Title", "Skill Tree");
+		config.addDefault("Gui.SkillTree.AlreadyUnlocked", "&cYou have already unlocked that skill!");
+		config.addDefault("Gui.SkillTree.NewUnlock", "&aYou have unlocked &f%skill&a!");
+		config.addDefault("Gui.SkillTree.Locked", "&cYou can't unlock that skill yet!");
+		
 		lang.save();
 	}
 

@@ -23,8 +23,8 @@ public class Mancer extends VitalisPlayer{
 	private double maxMana;
 	private ItemStack[] manaInventory;
 
-	public Mancer(Player player, HashMap<Integer, String> abilities) {
-		super(player, ClassType.MANCER, abilities);
+	public Mancer(Player player, HashMap<Integer, String> abilities, Integer[] unlockedSkillTreeObjects) {
+		super(player, ClassType.MANCER, abilities, unlockedSkillTreeObjects);
 		mancers.put(player, this);
 		update(player);
 		ResultSet rs = DBMethods.readQuery("SELECT magic FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");

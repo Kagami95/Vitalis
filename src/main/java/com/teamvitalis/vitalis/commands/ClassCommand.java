@@ -50,11 +50,11 @@ public class ClassCommand extends ACommand{
 			}
 			
 			if (Arrays.asList(mechanist).contains(args.get(0).toLowerCase())) {
-				new Mechanist(target, new HashMap<Integer, String>());
+				new Mechanist(target, new HashMap<Integer, String>(), new Integer[]{});
 				sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MECHANIST_DISPLAY.toString(), target.getName()));
 				target.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MECHANIST_DISPLAY.toString(), sender.getName()));
 			} else if (Arrays.asList(mancer).contains(args.get(0).toLowerCase())) {
-				new Mancer(player, new HashMap<Integer, String>());
+				new Mancer(player, new HashMap<Integer, String>(), new Integer[]{});
 				sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MANCER_DISPLAY.toString(), target.getName()));
 				target.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MANCER_DISPLAY.toString(), sender.getName()));
 			} else {
@@ -72,10 +72,10 @@ public class ClassCommand extends ACommand{
 		}
 		
 		if (Arrays.asList(mechanist).contains(args.get(0).toLowerCase())) {
-			new Mechanist(player, new HashMap<Integer, String>());
+			new Mechanist(player, new HashMap<Integer, String>(), new Integer[]{});
 			sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE.toString(true, Lang.CHAT_MECHANIST_DISPLAY.toString()));
 		} else if (Arrays.asList(mancer).contains(args.get(0).toLowerCase())) {
-			new Mancer(player, new HashMap<Integer, String>());
+			new Mancer(player, new HashMap<Integer, String>(), new Integer[]{});
 			sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE.toString(true, Lang.CHAT_MANCER_DISPLAY.toString()));
 		} else {
 			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_CLASS.toString()));
