@@ -15,8 +15,8 @@ public class Mechanist extends VitalisPlayer{
 	private static HashMap<Player, Mechanist> mechanists = new HashMap<>();
 	private ConcurrentHashMap<String, Integer> remainingUsesPerAbility = new ConcurrentHashMap<>();
 
-	public Mechanist(Player player, HashMap<Integer, String> abilities) {
-		super(player, ClassType.MECHANIST, abilities);
+	public Mechanist(Player player, HashMap<Integer, String> abilities, Integer[] unlockedSkillTreeObjects) {
+		super(player, ClassType.MECHANIST, abilities, unlockedSkillTreeObjects);
 		mechanists.put(player, this);
 		update(player);
 	}
