@@ -47,6 +47,14 @@ public abstract class ACommand implements ICommand {
 	public String getProperUse() {
 		return properUse;
 	}
+
+	public String getTemplate() {
+		String template = "";
+		for (String word : getProperUse().split(" "))
+			if (word.charAt(0) != '[' && word.charAt(0) != '<')
+				template += word + " ";
+		return template;
+	}
 	
 	public String[] getAliases() {
 		return aliases;
