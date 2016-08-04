@@ -2,6 +2,7 @@ package com.teamvitalis.vitalis;
 
 import java.util.logging.Logger;
 
+import com.teamvitalis.vitalis.casts.GlobalPassives;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +23,7 @@ public class Vitalis extends JavaPlugin {
 	private static Vitalis plugin;
 	private static Logger log;
 	private static Database database;
-	
+
 	@Override
 	public void onEnable() {
 		plugin = this;
@@ -43,6 +44,8 @@ public class Vitalis extends JavaPlugin {
 		new Commands(this).loadCommands();
 		BaseCast.loadAll();
 		new CollisionHandler();
+
+		GlobalPassives.start();
 	}
 	
 	@Override
