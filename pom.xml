@@ -13,8 +13,12 @@
       <id>spigot-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
     </repository>
+    <repository>
+      <id>inventive-repo</id>
+      <url>https://repo.inventivetalent.org/content/groups/public/</url>
+    </repository>
   </repositories>
-  
+
   <dependencies>
     <!--Spigot API-->
     <dependency>
@@ -41,6 +45,11 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.21</version>
+    </dependency>
+    <dependency>
+      <groupId>org.inventivetalent</groupId>
+      <artifactId>glowapi</artifactId>
+      <version>1.4.4</version>
     </dependency>
   </dependencies>
   

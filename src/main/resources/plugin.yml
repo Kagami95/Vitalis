@@ -2,6 +2,7 @@ name: Vitalis
 main: com.teamvitalis.vitalis.Vitalis
 version: ${project.version}
 author: vitalis
+softdepend: ["PacketListenerApi","GlowAPI"]
 
 commands:
     vitalis:

@@ -20,7 +20,7 @@ public class LunaMethods {
 	 *  0: New Moon
 	 */
 	public static int getLunarPhase(World world) {
-		long days = world.getFullTime()/24000 - ((world.getFullTime()%24000 < 12500) ? 1 : 0);
+		long days = world.getFullTime()/24000 - ((world.getTime() < 12500) ? 1 : 0);
 		int phase = (int) Math.abs(4-(days%8));
 		return phase;
 	}

@@ -6,5 +6,7 @@ package com.teamvitalis.vitalis.casts.luna;
 public class LunaPassives {
 	public static void runAll() {
 		Longevity.run();
+		Empowerment.run();
+		SilverShield.run();
 	}
 }
