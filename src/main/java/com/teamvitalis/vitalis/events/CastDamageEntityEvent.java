@@ -8,21 +8,21 @@ import org.bukkit.event.HandlerList;
 
 import com.teamvitalis.vitalis.api.ICast;
 
-public class AbilityDamageEntityEvent extends Event implements Cancellable{
+public class CastDamageEntityEvent extends Event implements Cancellable{
 	
 	private static final HandlerList handlers = new HandlerList();
 	
 	private LivingEntity entity;
 	private Player source;
 	private double damage;
-	private ICast ability;
+	private ICast cast;
 	private boolean cancelled;
 
-	public AbilityDamageEntityEvent(LivingEntity entity, Player source, double damage, ICast ability) {
+	public CastDamageEntityEvent(LivingEntity entity, Player source, double damage, ICast cast) {
 		this.entity = entity;
 		this.source = source;
 		this.damage = damage;
-		this.ability = ability;
+		this.cast = cast;
 	}
 	
 	public LivingEntity getDamaged() {
@@ -37,8 +37,8 @@ public class AbilityDamageEntityEvent extends Event implements Cancellable{
 		return damage;
 	}
 	
-	public ICast getAbility() {
-		return ability;
+	public ICast getCast() {
+		return cast;
 	}
 	
 	@Override

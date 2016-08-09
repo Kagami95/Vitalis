@@ -3,7 +3,6 @@ package com.teamvitalis.vitalis.object;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,11 +15,12 @@ public class CastLog {
 	private File log;
 	private File logFolder;
 	private Date date;
+	private PrintWriter print;
 	
 	public CastLog(Vitalis plugin, String name) {
 		date = new Date();
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
-		logFolder = new File(plugin.getDataFolder() + File.separator + "/logs/");
+		logFolder = new File(plugin.getDataFolder(), "logs");
 		if (!logFolder.exists()) {
 			try {
 				logFolder.mkdir();
@@ -34,6 +34,7 @@ public class CastLog {
 				log.delete();
 			}
 			log.createNewFile();
+			print = new PrintWriter(new BufferedWriter(new FileWriter(log, true)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,30 +48,43 @@ public class CastLog {
 		return logFolder;
 	}
 	
+	/**
+	 * Modifies the current line. Use {@link #endLine(String)} to end the line.
+	 * @param line Text to add to the line.
+	 */
 	public void modifyLine(String line) {
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(log, true));
-			PrintWriter print = new PrintWriter(writer);
-			print.println(line);
-			print.flush();
-			print.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+		print.print(line);
 	}
 	
+	/**
+	 * Modifies a new line. Should be called after {@link #endLine(String)}
+	 * @param line Text to put on new line
+	 */
+	public void modifyNewLine(String line) {
+		print.println(line);
+	}
+	
+	/**
+	 * Ends the current line, further modifying will happen on the next line.
+	 * @param line Text to end the line
+	 */
+	public void endLine(String line) {
+		print.println(line);
+	}
+	
+	/**
+	 * Skips the current line. Should be called after {@link #endLine(String)}
+	 */
 	public void skipLine() {
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(log, true));
-			PrintWriter print = new PrintWriter(writer);
-			print.println("");
-			print.flush();
-			print.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
+		print.println("");
+	}
+	
+	/**
+	 * Closes the PrintWriter. Must be called.
+	 */
+	public void close() {
+		print.flush();
+		print.close();
 	}
 	
 	public Date getDate() {

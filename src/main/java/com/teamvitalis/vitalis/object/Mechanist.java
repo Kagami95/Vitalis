@@ -7,9 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.entity.Player;
 
-import com.teamvitalis.vitalis.api.BaseCast;
-import com.teamvitalis.vitalis.api.MechCast;
-
 public class Mechanist extends VitalisPlayer{
 	
 	private static HashMap<Player, Mechanist> mechanists = new HashMap<>();
@@ -52,20 +49,11 @@ public class Mechanist extends VitalisPlayer{
 	}
 	
 	public void resetUses() {
-		for (BaseCast cast : BaseCast.getAllCasts()) {
-			if (!(cast instanceof MechCast)) {
+		for (CastInfo cast : CastInfo.getAllCasts()) {
+			if (cast.getClassType() == ClassType.MANCER) {
 				continue;
 			}
-			MechCast mech = (MechCast) cast;
-			remainingUsesPerAbility.put(cast.getName(), mech.getDefaultUses());
+			remainingUsesPerAbility.put(cast.getName(), cast.getDefaultUses());
 		}
-	}
-
-	@Override
-	public boolean canUse(String ability) {
-		if (getRemainingUses(ability) == 0) {
-			return false;
-		}
-		return true;
 	}
 }

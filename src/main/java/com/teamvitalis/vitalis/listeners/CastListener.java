@@ -27,7 +27,7 @@ public class CastListener implements Listener{
 		if (event.isCancelled()) return;
 		
 		Player player = event.getPlayer();
-		int slot = player.getInventory().getHeldItemSlot();
+		int slot = player.getInventory().getHeldItemSlot() + 1;
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		if (vPlayer == null) {
 			return;
@@ -36,7 +36,6 @@ public class CastListener implements Listener{
 		if (name == null) {
 			return;
 		}
-		
 		if (name.equalsIgnoreCase("PyroBlast")) {
 			new PyroBlast(player);
 		}
@@ -47,7 +46,7 @@ public class CastListener implements Listener{
 		if (event.isCancelled()) return;
 		
 		Player player = event.getPlayer();
-		int slot = player.getInventory().getHeldItemSlot();
+		int slot = player.getInventory().getHeldItemSlot() + 1;
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		if (vPlayer == null) {
 			return;
@@ -57,7 +56,7 @@ public class CastListener implements Listener{
 			return;
 		}
 		
-		if (name.equalsIgnoreCase("VoidTrap") && event.isSneaking()) {
+		if (name.equalsIgnoreCase("VoidTrap") && !player.isSneaking()) {
 			new VoidTrap(player);
 		}
 	}

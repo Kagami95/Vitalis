@@ -2,11 +2,14 @@ package com.teamvitalis.vitalis.object;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.teamvitalis.vitalis.database.DBMethods;
@@ -45,10 +48,6 @@ public abstract class VitalisPlayer {
 				//when player uses '/v class' command
 				return false;
 			} else {
-				String name = player.getName();
-				if (name != rs.getString("name")) {
-					DBMethods.modifyQuery("UPDATE vitalis_players SET name = '" + name + "' WHERE uuid = '" + uuid.toString() + "';"); 
-				}
 				ClassType type = ClassType.valueOf(rs.getString("class"));
 				HashMap<Integer, String> abilities = new HashMap<>();
 				for (int i = 1; i < 10; i++) {
@@ -62,6 +61,9 @@ public abstract class VitalisPlayer {
 				String unlockedArray = rs.getString("unlocked_skills");
 				if (unlockedArray != null && !unlockedArray.isEmpty()) {
 					for (String s : unlockedArray.split(",[ ]*")) {
+						if (!isNumeric(s)) {
+							continue;
+						}
 						ArrayUtils.add(unlockedSkillTreeObjects, Integer.valueOf(s));
 					}
 				}
@@ -242,5 +244,34 @@ public abstract class VitalisPlayer {
 		this.unlockedSkillTreeObjects = unlockedSkillTreeObjects;
 	}
 	
-	public abstract boolean canUse(String ability);
+	private static boolean isNumeric(String id) {
+		NumberFormat formatter = NumberFormat.getInstance();
+		ParsePosition pos = new ParsePosition(0);
+		formatter.parse(id, pos);
+		return id.length() == pos.getIndex();
+	}
+	
+	public boolean canUse() {
+		boolean canUse = true;
+		Player player = Bukkit.getPlayer(uuid);
+		CastInfo info = CastInfo.fromName(getAbility(player.getInventory().getHeldItemSlot()));
+		if (this instanceof Mancer) {
+			Mancer m = (Mancer) this;
+			if (info.getMagicType() == null) {
+				canUse = false;
+			} else if (m.getMagicType() != info.getMagicType()) {
+				canUse = false;
+			}
+		} else if (this instanceof Mechanist) {
+			Mechanist m = (Mechanist) this;
+			if (info.getMagicType() != null) {
+				canUse = false;
+			} else if (m.getRemainingUses(info.getName()) == 0) {
+				canUse = false;
+			}
+		} else {
+			canUse = false;
+		}
+		return canUse;
+	}
 }

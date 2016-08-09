@@ -16,6 +16,7 @@ public class Commands {
 
 	public Commands(Vitalis plugin) {
 		this.plugin = plugin;
+		loadCommands();
 	}
 
 	public void loadCommands() {
@@ -27,9 +28,11 @@ public class Commands {
 		new BindCommand();
 		new ChooseCommand();
 		new ClassCommand();
+		new DisplayCommand();
 		new GuideCommand();
 		new ReloadCommand();
 		new RemoveCommand();
+		new SkillTreeCommand();
 		new WhoCommand();
 
 		CommandExecutor exe = new CommandExecutor() {

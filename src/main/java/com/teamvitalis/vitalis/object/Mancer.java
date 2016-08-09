@@ -6,12 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.teamvitalis.vitalis.api.BaseCast;
-import com.teamvitalis.vitalis.api.MagicCast;
 import com.teamvitalis.vitalis.database.DBMethods;
 
 public class Mancer extends VitalisPlayer{
@@ -30,9 +27,9 @@ public class Mancer extends VitalisPlayer{
 		ResultSet rs = DBMethods.readQuery("SELECT magic FROM vitalis_players WHERE uuid = '" + player.getUniqueId().toString() + "';");
 		try {
 			if (rs.next()) {
-				MagicType magic = MagicType.fromName(rs.getString("magic"));
+				MagicType magic = MagicType.fromName(rs.getString(1));
 				if (magic != null) {
-					type = magic;
+					setMagicType(magic);
 				}
 			} 
 		} catch (SQLException e) {
@@ -83,21 +80,5 @@ public class Mancer extends VitalisPlayer{
 	
 	public static Collection<Mancer> values() {
 		return mancers.values();
-	}
-
-	@Override
-	public boolean canUse(String cast) {
-		if (!(BaseCast.getByName(cast) instanceof BaseCast)) {
-			return false;
-		}
-		MagicCast ability2 = (MagicCast) BaseCast.getByName(cast);
-		if (!(VitalisPlayer.fromPlayer(Bukkit.getPlayer(getUniqueId())) instanceof Mancer)) {
-			return false;
-		}
-		Mancer mancer = (Mancer) VitalisPlayer.fromPlayer(Bukkit.getPlayer(getUniqueId()));
-		if (mancer.getMagicType() == ability2.getMagicType()) {
-			return true;
-		}
-		return false;
 	}
 }
