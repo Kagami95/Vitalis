@@ -38,7 +38,7 @@ public class HelpCommand extends ACommand{
 				TextComponent tc = new TextComponent(ChatColor.GRAY + command.getProperUse());
 				String tooltip = WordUtils.wrap(ChatColor.GRAY + command.getHelp(), 40, "\n" + ChatColor.GRAY, false);
 				tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(tooltip).create()));
-				tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command.getProperUse()));
+				tc.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command.getTemplate()));
 				order.add(command.getName());
 				components.put(command.getName(), tc);
 			}
