@@ -43,18 +43,6 @@ public class DBMethods {
 			}
 			modifyQuery(query);
 		}
-		/*
-		if (!tableExists("ability_uuids")) {
-			Vitalis.logger().info("Creating new ability_uuids table");
-			String query = "CREATE TABLE ability_uuids (uuid %uuid, default %def, nickname %name)";
-			if (database.getDriver().equalsIgnoreCase("mysql")) {
-				query = query.replace("%uuid", "varchar(36)").replace("%def", "varchar(255)").replace("%name", "varchar(255)");
-			} else if (database.getDriver().equalsIgnoreCase("sqlite")) {
-				query = query.replace("%uuid", "TEXT(36)").replace("%def", "TEXT(255)").replace("%name", "TEXT(255)");
-			}
-			modifyQuery(query);
-		}
-		*/
 	}
 	
 	public Connection open() {
@@ -98,7 +86,7 @@ public class DBMethods {
     				e.printStackTrace();
     			}
     		}
-    	}.runTaskAsynchronously(Vitalis.plugin());
+    	}.runTaskLater(Vitalis.plugin(), 1);
     }
 
     /**
@@ -111,7 +99,6 @@ public class DBMethods {
         try {
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-
             return rs;
         } catch(SQLException e) {
             e.printStackTrace();

@@ -2,7 +2,6 @@ package com.teamvitalis.vitalis.casts.ether;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -24,12 +23,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.api.MagicCast;
-import com.teamvitalis.vitalis.object.MagicType;
+import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.object.CastInfo;
 import com.teamvitalis.vitalis.utils.BlockUtils;
 import com.teamvitalis.vitalis.utils.ParticleEffect;
 
-public class VoidTrap extends MagicCast {
+public class VoidTrap extends BaseCast {
 	
 	private Location loc;
 	private enum VoidTrapState {CHARGING, OPENING, OPEN, CLOSING, IDLE};
@@ -46,18 +45,9 @@ public class VoidTrap extends MagicCast {
 	public static double suctionPower = 1;
 	public static int suctionAmount = 5;
 	private static Random rand = new Random();
-	private static UUID uuid;
-	
-	static {
-		uuid = UUID.fromString("56486fb9-70ab-47e1-9e69-b7e99375e154");
-	}
 	
 	public static Map<Block, Player> portalBlocks = new ConcurrentHashMap<Block, Player>();
 	public static Map<Player, Long> trappedPlayers = new ConcurrentHashMap<Player, Long>();
-	
-	public VoidTrap() {
-		super("VoidTrap", uuid);
-	}
 	
 	public VoidTrap(Player player) {
 		super(player);
@@ -148,16 +138,6 @@ public class VoidTrap extends MagicCast {
 	}
 
 	@Override
-	public String getName() {
-		return "VoidTrap";
-	}
-
-	@Override
-	public String getDescription() {
-		return "Create a black hole that sucks all living things into the void. All things sucked into the void must break out by smashing the dimensional barrier (hit rapidy lots). Hold Sneak to charge until a black hole forms.";
-	}
-
-	@Override
 	public Location getLocation() {
 		return this.loc;
 	}
@@ -166,7 +146,7 @@ public class VoidTrap extends MagicCast {
 	@Override
 	public boolean progress() {
 		Bukkit.broadcastMessage("Progress1");
-		if (!vPlayer.canUse("VoidTrap")) {
+		if (!vPlayer.canUse()) {
 			Bukkit.broadcastMessage("Progress Exit: canUse");
 			remove();
 			return false;
@@ -201,7 +181,7 @@ public class VoidTrap extends MagicCast {
 				double z = Math.cos(Math.toRadians(angle));
 				ParticleEffect.SPELL_WITCH.display(0, 0, 0, 0.5F, 1, this.getLocation().clone().add(x, 0, z));
 			}
-			this.radius = this.radius + 0.1D;
+			radius += 0.1D;
 			//radius = Math.round(radius * 10) / 10;
 			
 			if (radius >= 1.5 && radius * 10 % 5 == 0) {
@@ -266,11 +246,6 @@ public class VoidTrap extends MagicCast {
 		
 		return true;
 	}
-
-	@Override
-	public MagicType getMagicType() {
-		return MagicType.ETHER;
-	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -297,16 +272,7 @@ public class VoidTrap extends MagicCast {
 	}
 
 	@Override
-	public List<Location> getLocations() {
-		return null;
-	}
-	
-	@Override
-	public boolean load() {
-		return super.isEnabled();
-	}
-
-	public static UUID getUID() {
-		return uuid;
+	public CastInfo getInfo() {
+		return CastInfo.fromUUID(UUID.fromString("56486fb9-70ab-47e1-9e69-b7e99375e154"));
 	}
 }

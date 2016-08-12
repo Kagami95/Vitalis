@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.object.CastInfo;
 import com.teamvitalis.vitalis.object.Lang;
 import com.teamvitalis.vitalis.object.VitalisPlayer;
 
@@ -31,28 +31,24 @@ public class BindCommand extends ACommand{
 		
 		Player player = (Player) sender;
 		int slot = -1;
-		String slotNum = String.valueOf(slot);
-		BaseCast cast = BaseCast.getByName(args.get(0));
+		CastInfo cast = CastInfo.fromName(args.get(0));
 		if (cast == null) {
 			sender.sendMessage(error(Lang.COMMAND_ERROR_INVALID_ABILITY.toString()));
 			return;
 		}
 		
 		if (args.size() == 1) {
-			slot = player.getInventory().getHeldItemSlot();
-			slotNum = String.valueOf(slot + 1);
+			slot = player.getInventory().getHeldItemSlot() + 1;
 		} else if (args.size() == 2) {
 			slot = Integer.parseInt(args.get(1));
-			slotNum = String.valueOf(slot);
 		} else if (args.size() == 3) {
 			slot = Integer.parseInt(args.get(1));
-			slotNum = String.valueOf(slot);
 			Player target = Bukkit.getPlayer(args.get(2));
 			if (target != null) {
 				VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(target);
 				vPlayer.setAbility(slot, cast.getName());
-				target.sendMessage(Lang.COMMAND_BIND_SUCCESS_TARGET.toString(true, cast.getName(), slotNum, sender.getName()));
-				sender.sendMessage(Lang.COMMAND_BIND_SUCCESS_SENDER.toString(true, cast.getName(), slotNum, target.getName()));
+				target.sendMessage(Lang.COMMAND_BIND_SUCCESS_TARGET.toString(true, cast.getName(), String.valueOf(slot), sender.getName()));
+				sender.sendMessage(Lang.COMMAND_BIND_SUCCESS_SENDER.toString(true, cast.getName(), String.valueOf(slot), target.getName()));
 				return;
 			}
 		}
@@ -62,6 +58,6 @@ public class BindCommand extends ACommand{
 		}
 		VitalisPlayer vPlayer = VitalisPlayer.fromPlayer(player);
 		vPlayer.setAbility(slot, cast.getName());
-		sender.sendMessage(Lang.COMMAND_BIND_SUCCESS.toString(true, cast.getName(), slotNum));
+		sender.sendMessage(Lang.COMMAND_BIND_SUCCESS.toString(true, cast.getName(), String.valueOf(slot)));
 	}
 }

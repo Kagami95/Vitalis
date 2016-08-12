@@ -1,5 +1,6 @@
 package com.teamvitalis.vitalis.object;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
@@ -9,6 +10,7 @@ import com.teamvitalis.vitalis.configuration.LangConfig;
 public class MagicType {
 
 	private static final HashMap<String, MagicType> TYPES = new HashMap<>();
+	private static final HashMap<String, MagicType> ALIASES = new HashMap<>();
 	
 	public static final MagicType PYRO = new MagicType("Pyromancy", Lang.CHAT_PYRO_DISPLAY, 100, ChatColor.valueOf(LangConfig.get().getString("Chat.Pyromancy.ChatColor")), "pyro", "p");
 	public static final MagicType CRYO = new MagicType("Cryomancy", Lang.CHAT_CRYO_DISPLAY, 100, ChatColor.valueOf(LangConfig.get().getString("Chat.Cryomancy.ChatColor")), "cryo", "c");
@@ -25,20 +27,26 @@ public class MagicType {
 	private Lang displayName;
 	private int defaultMana;
 	private ChatColor color;
+	private String[] aliases;
 	
 	public MagicType(String name, Lang displayName, int defaultMana, ChatColor color, String... aliases) {
 		setName(name);
 		setDisplayName(displayName);
 		setDefaultMana(defaultMana);
 		setChatColor(color);
-		TYPES.put(getName(), this);
+		this.aliases = aliases;
+		TYPES.put(name.toLowerCase(), this);
 		for (String s : aliases) {
-			TYPES.put(s.toLowerCase(), this);
+			ALIASES.put(s, this);
 		}
 	}
 	
 	public static MagicType fromName(String name) {
-		return TYPES.containsKey(name) ? TYPES.get(name) : null;
+		return TYPES.containsKey(name.toLowerCase()) ? TYPES.get(name.toLowerCase()) : fromAlias(name);
+	}
+	
+	public static MagicType fromAlias(String alias) {
+		return ALIASES.containsKey(alias) ? ALIASES.get(alias) : null;
 	}
 
 	public String getName() {
@@ -46,7 +54,7 @@ public class MagicType {
 	}
 
 	public void setName(String name) {
-		this.name = name.toLowerCase();
+		this.name = name;
 	}
 
 	public Lang getDisplayName() {
@@ -73,12 +81,15 @@ public class MagicType {
 		this.color = color;
 	}
 	
+	public String[] getAliases() {
+		return aliases;
+	}
+	
 	public String toString() {
 		return getName();
 	}
 	
-	public static HashMap<String, MagicType> getMagicTypes() {
-		return TYPES;
+	public static Collection<MagicType> values() {
+		return TYPES.values();
 	}
-	
 }

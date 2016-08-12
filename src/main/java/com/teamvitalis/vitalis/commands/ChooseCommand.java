@@ -37,11 +37,11 @@ public class ChooseCommand extends ACommand{
 			sender.sendMessage(error(Lang.COMMAND_ERROR_HAS_MAGIC.toString()));
 			return;
 		}
-		MagicType type = MagicType.fromName(args.get(0).toLowerCase());
+		MagicType type = MagicType.fromName(args.get(0));
 		if (type == null) {
 			String message = Lang.COMMAND_ERROR_INVALID_MAGIC.toString();
 			sender.sendMessage(error(message));
-			for (MagicType type2 : MagicType.getMagicTypes().values()) {
+			for (MagicType type2 : MagicType.values()) {
 				sender.sendMessage("- " + type2.getChatColor() + type2.getName());
 			}
 			return;

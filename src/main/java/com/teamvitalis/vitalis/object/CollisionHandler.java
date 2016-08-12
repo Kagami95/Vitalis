@@ -13,44 +13,46 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.teamvitalis.vitalis.Vitalis;
-import com.teamvitalis.vitalis.api.Collision;
 import com.teamvitalis.vitalis.api.BaseCast;
+import com.teamvitalis.vitalis.api.Collision;
 
 public class CollisionHandler {
-	
+
 	private static double collisionRadius;
-	
+
 	private static BukkitRunnable run = new BukkitRunnable() {
 
 		@Override
 		public void run() {
 			checkForCollision();
 		}
-		
+
 	};
-	
+
 	public CollisionHandler() {
 		Vitalis.plugin().getServer().getScheduler().scheduleSyncRepeatingTask(Vitalis.plugin(), (Runnable) run, 0L, 1L);
 	}
-	
+
 	public static boolean checkForCollision() {
-		List<BaseCast> activeAbilities = BaseCast.getActiveCasts();
-		List<BaseCast> clone = BaseCast.getActiveCasts();
-		
-		if (activeAbilities.isEmpty()) {
+		List<BaseCast> activeCasts = BaseCast.getActiveCasts();
+		List<BaseCast> clone = new ArrayList<>();
+		clone.addAll(activeCasts);
+
+		if (activeCasts.isEmpty()) {
 			return false;
 		}
-		
-		for (BaseCast cast : activeAbilities) {
+
+		for (BaseCast cast : activeCasts) {
 			clone.remove(cast);
+
 			if (!(cast instanceof Collision)) {
 				continue;
 			}
-			
+
 			Collision collider = (Collision) cast;
 			collisionRadius = collider.getCollisionRadius();
 			boolean collision = false;
-			
+
 			//Casts collision
 			List<BaseCast> colliders = new ArrayList<>();
 			colliders.add(cast);
@@ -72,12 +74,12 @@ public class CollisionHandler {
 				runCastsCollision(colliders);
 				collision = true;
 			}
-		
+
 			//Cast v Entities collision
 			if (!collision) {
 				List<Entity> entities = cast.getLocation().getWorld().getEntities();
 				List<LivingEntity> newList = new ArrayList<>();
-				
+
 				for (Entity entity : entities) {
 					if (entity instanceof Player && ((Player)entity).getGameMode().equals(GameMode.SPECTATOR)) {
 						continue;
@@ -90,13 +92,13 @@ public class CollisionHandler {
 					}
 					newList.add((LivingEntity)entity);
 				}
-				
+
 				if (!newList.isEmpty()) {
 					runEntitiesCollision(cast, newList);
 					collision = true;
 				}
 			}
-			
+
 			//Cast v Block collision
 			if (!collision) {
 				Material m = cast.getLocation().getBlock().getType();
@@ -105,9 +107,9 @@ public class CollisionHandler {
 				}
 			}
 		}
-		return true;
+		return false;
 	}
-	
+
 	public static void runCastsCollision(List<BaseCast> abils) {
 		HashMap<Collision, Integer> levels = new HashMap<>();
 		HashMap<Collision, BaseCast> map = new HashMap<>();
@@ -116,7 +118,7 @@ public class CollisionHandler {
 			levels.put(collision, collision.getPriority().getLevel());
 			map.put(collision, abils.get(i));
 		}
-		
+
 		for (int i = 5; i > 0; i--) {
 			for (Collision collision : levels.keySet()) {
 				if (levels.get(collision) == i) {
@@ -129,7 +131,7 @@ public class CollisionHandler {
 			}
 		}
 	}
-	
+
 	public static void runEntitiesCollision(BaseCast ability, List<LivingEntity> le) {
 		Collision collision = (Collision) ability;
 		collision.onEntitiesCollision(le);
@@ -137,7 +139,7 @@ public class CollisionHandler {
 			ability.remove();
 		}
 	}
-	
+
 	public static void runBlockCollision(BaseCast ability, Block b) {
 		Collision collision = (Collision) ability;
 		collision.onBlockCollision(b);
@@ -145,11 +147,11 @@ public class CollisionHandler {
 			ability.remove();
 		}
 	}
-	
+
 	public static BukkitRunnable getRunnable() {
 		return run;
 	}
-	
+
 	public static double getCurrentCollisionRadius() {
 		return collisionRadius;
 	}

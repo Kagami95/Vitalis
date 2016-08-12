@@ -116,4 +116,8 @@ public class SkillTreeInventory extends AGui {
 			getPages().remove(this.getName());
 		}
 	}
+	
+	public int getPageID() {
+		return pageid;
+	}
 }

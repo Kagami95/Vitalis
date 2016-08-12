@@ -44,8 +44,10 @@ public class ClassCommand extends ACommand{
 			
 			if (VitalisPlayer.fromPlayer(target) != null) {
 				if (VitalisPlayer.fromPlayer(target).getClassType() != null) {
-					sender.sendMessage(error(Lang.COMMAND_ERROR_HAS_CLASS.toString()));
-					return;
+					if (!player.hasPermission("vitalis.command.class.rechoose")) {
+						sender.sendMessage(error(Lang.COMMAND_ERROR_HAS_CLASS.toString()));
+						return;
+					}
 				}
 			}
 			
@@ -54,7 +56,7 @@ public class ClassCommand extends ACommand{
 				sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MECHANIST_DISPLAY.toString(), target.getName()));
 				target.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MECHANIST_DISPLAY.toString(), sender.getName()));
 			} else if (Arrays.asList(mancer).contains(args.get(0).toLowerCase())) {
-				new Mancer(player, new HashMap<Integer, String>(), new Integer[]{});
+				new Mancer(target, new HashMap<Integer, String>(), new Integer[]{});
 				sender.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MANCER_DISPLAY.toString(), target.getName()));
 				target.sendMessage(Lang.COMMAND_CLASS_CHOOSE_SENDER.toString(true, Lang.CHAT_MANCER_DISPLAY.toString(), sender.getName()));
 			} else {
@@ -66,8 +68,10 @@ public class ClassCommand extends ACommand{
 		
 		if (VitalisPlayer.fromPlayer(player) != null) {
 			if (VitalisPlayer.fromPlayer(player).getClassType() != null) {
-				sender.sendMessage(error(Lang.COMMAND_ERROR_HAS_CLASS.toString()));
-				return;
+				if (!player.hasPermission("vitalis.command.class.rechoose")) {
+					sender.sendMessage(error(Lang.COMMAND_ERROR_HAS_CLASS.toString()));
+					return;
+				}
 			}
 		}
 		
