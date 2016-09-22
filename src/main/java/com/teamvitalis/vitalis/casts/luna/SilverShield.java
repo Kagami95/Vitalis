@@ -15,7 +15,7 @@ import org.inventivetalent.glow.GlowAPI;
  */
 public class SilverShield {
 
-	private static float shieldRadius = 1.5f;
+	private static float shieldRadius = 1.4f;
 	private static long flashTime = 250L;
 
 	public static Vector reverseVelocity(Vector v) {
@@ -30,7 +30,7 @@ public class SilverShield {
 				Vector v = arrow.getVelocity();
 				for (float i = 1; i < 4.; i += 0.5) {
 					double d = loc.add(v.normalize().multiply(i)).distance(p.getLocation());
-					if (d < shieldRadius) {
+					if (d <= shieldRadius) {
 						if (arrow.getLocation().distance(p.getLocation()) > 4.0 || arrow.isOnGround() || arrow.getShooter() == p)
 							continue;
 						arrow.setShooter(p);
